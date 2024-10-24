@@ -1,30 +1,36 @@
 <?php
     require_once("style.php");
-    init_style();
+    //init_style();
     if(!isset($_SESSION['privilege'])){
         $_SESSION['privilege'] = '';
     }
+    echo $_SESSION['privilege'];
     function get_navbar() {
 ?>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#"><img src="" alt="SDS Logo"></a>
+        <a class="navbar-brand" href="index.php"><img src="SDSTaskSite/img/logo.png" alt="SDS Logo" height='33px'></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item px-3">
-                    <a class="nav-link active text-white" aria-current="page" href="#">Projects</a>
+                    <a class="nav-link active text-white" aria-current="page" href="../projects.php">Projects</a>
                 </li>
                 <div class="vr text-white"></div>
                 <li class="nav-item px-3">
-                    <a class="nav-link text-white" href="#">Tasks</a>
+                    <a class="nav-link text-white" href="../charts.php">Charts</a>
                 </li>
-                <div class="vr text-white"></div>
-                <li class="nav-item px-3">
-                    <a class="nav-link text-white" href="#">Charts</a>
-                </li>
+                <?php
+                    if($_SESSION['privilege'] == 'Admin'){ ?>
+                        <div class="vr text-white"></div>
+                        <li class="nav-item px-3">
+                            <a class="nav-link text-white" href="../register.php">Register New User</a>
+                        </li>
+                    <?php }
+                ?>
+
             </ul>
             <ul class="navbar-nav">
                 <li class="nav-item px-3">
@@ -32,7 +38,7 @@
                 </li>
                 <div class="vr text-white"></div>
                 <li class="nav-item px-3">
-                    <a class="nav-link text-white" href="#">Logout</a>
+                    <a class="nav-link clickable text-white" href="../services/logout.php">Logout</a>
                 </li>
             </ul>
         </div>
