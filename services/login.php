@@ -3,8 +3,21 @@
     //  Init POST variables from home.php login form
 	require_once 'db_config.php';
 
-    $email = ($_POST['email']);
-    $password = ($_POST['password']);
+    /*  TODO Form Validation
+    $emailErr = $passwordErr = "";
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        if (empty($_POST['email'])) {
+            $emailErr = "Email is required";
+            echo $emailErr;
+        } else $email = mysqli_real_escape_string($con, $_POST['email']);
+        if (empty($_POST['password'])) {
+            $passwordErr = "Password is required";  
+        } else $password = mysqli_real_escape_string($con, $_POST['password']);
+    } 
+    */
+
+    $password = mysqli_real_escape_string($con, $_POST['password']);
+    $email = mysqli_real_escape_string($con, $_POST['email']);
 
     $query = "SELECT `email`, `password`, `userid`, `privilege` from users WHERE email='$email'";
     $results = mysqli_query($con, $query);

@@ -18,16 +18,19 @@
         require_once "modules/nav.php";
         get_navbar();
 
-        $sess_id = $_SESSION['userid'];
+        $sess_id = mysqli_escape_string($con, $_SESSION['userid']);
         $query = "SELECT * 
                     FROM projects 
                     INNER JOIN p_members 
                     ON projects.projectid = p_members.projectid 
-                    WHERE userid = '$sess_id'";
+                    WHERE userid = ?";
                     
-        $results = mysqli_query($con, $query);
+        $stmt = $con->prepare($query);
+        $stmt->bind_param('i', $sess_id);
+        $stmt->execute();
+        $results = $stmt->get_result();
         $requests = array();
-    
+
         while ($row = mysqli_fetch_assoc($results)) {
             $requests[] = $row;
         }
