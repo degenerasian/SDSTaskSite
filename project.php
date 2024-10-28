@@ -17,42 +17,26 @@
         require_once "services/db_config.php";
         require_once "modules/nav.php";
         get_navbar();
+        $projectid = $_GET['projectid'];
 
-        $sess_id = $_SESSION['userid'];
-        $query = "SELECT * 
-                    FROM projects 
-                    INNER JOIN p_members 
-                    ON projects.projectid = p_members.projectid 
-                    WHERE userid = '$sess_id'";
-                    
+        // create a query to get project
+        $query = "SELECT p.*, u.*
+                    FROM projects p
+                    INNER JOIN p_members pm on p.projectid = pm.projectid
+                    INNER JOIN users u on u.userid = pm.userid
+                    WHERE p.projectid = 2";
+
         $results = mysqli_query($con, $query);
         $requests = array();
     
         while ($row = mysqli_fetch_assoc($results)) {
             $requests[] = $row;
         }
-        
     ?>
     <body class="bg-body-tertiary">
-        <!--main-->
-        <div class="container-fluid px-5 py-3">
-            <h1>SDS Projects</h1>
-            <div class="row row-cols-auto">
-                
-                <?php foreach($requests as $request){ ?>
-                <div class="col py-2 pe-3">
-                    <a class="link-underline link-underline-opacity-0" href="project.php?projectid=<?php echo $request['projectid'];?>">
-                        <div class="card shadow mb-5" style="width: 20rem; height: 20rem;">
-                            <div class="card-body">
-                                <h4><?php echo $request['project_name'];?></h4>
-                                <p class="card-text text-truncate"><?php echo $request['project_desc'];?></p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <?php } ?>
-            </div>
-        </div>
+        <?php foreach ($requests as $request) { ?>
+            <p><?php echo $request['f_name'] . " " . $request['l_name'] ?></p>
+        <?php } ?>
     </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </html>
