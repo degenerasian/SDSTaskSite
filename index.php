@@ -14,10 +14,10 @@
         if(!isset($_SESSION['userid'])){
             header('location: ./login.php');
         }        
-        require_once "services/db_config.php";
         require_once "modules/nav.php";
         get_navbar();
-
+        
+        require_once "services/db_config.php";
         $sess_id = mysqli_escape_string($con, $_SESSION['userid']);
         $query = "SELECT * 
                     FROM projects 

@@ -17,6 +17,7 @@
         }        
         require_once "services/db_config.php";
         require_once "modules/nav.php";
+        require_once "services/get_tasks.php";
         get_navbar();
         $projectid = mysqli_escape_string($con, $_GET['projectid']);
         $query = "SELECT projects.project_name
@@ -50,12 +51,10 @@
     ?>
 
     <body class="bg-body-tertiary">
-        <div class="container-fluid px-5 py-3">
-            <h1><?php echo $project['project_name'] ?></h1>
-        <div class="row row-cols-auto">
-        <?php foreach ($requests as $request) { ?>
-            <p><?php  echo '<pre>'; print_r($request); echo '</pre>'; ?></p>
-        <?php } ?>
+        <!--<div class="container-fluid px-5 py-3">
+            <h1><?php// echo $project['project_name'] ?></h1>-->
+        <?php get_tasks($con, $projectid);?>    
+
     </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </html>

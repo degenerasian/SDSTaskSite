@@ -7,7 +7,7 @@
     echo $_SESSION['privilege'];
     function get_navbar() {
 ?>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
     <div class="container-fluid">
         <a class="navbar-brand" href="index.php"><img src="/img/logo.png" alt="SDS Logo" height='33px'></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -25,7 +25,7 @@
                     if($_SESSION['privilege'] == 'Admin'){ ?>
 
                         <li class="nav-item px-3">
-                            <a class="nav-link text-white" href="../register.php">Register New User</a>
+                            <a class="nav-link text-white" href="../register.php">Manage Users</a>
                         </li>
 
                         <li class="nav-item px-3">
