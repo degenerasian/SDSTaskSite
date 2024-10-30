@@ -20,7 +20,6 @@ session_start();
                 <div class="mb-3 col-8">
                     <label for="email" class="form-label">Email</label>
                     <input type="text" class="form-control" id="email" placeholder="Email" name="email" required>
-                    <span class="error"><?php echo $emailErr;?></span>
                 </div>
                 <div class="mb-3 col-2"></div>
             </div>
@@ -29,7 +28,6 @@ session_start();
                 <div class="mb-3 col-8">
                     <label for="password" class="form-label">Password</label>
                     <input type="password" class="form-control" id="password" placeholder="Password" name="password" required>
-                    <span class="error"><?php echo $passwordErr;?></span>
                 </div>
                 <div class="mb-3 col-2"></div>
             </div>

@@ -3,20 +3,25 @@
     function get_tasks($con, $proj_id) { 
 ?>
     <div class="container-fluid">
-        <form action=" <?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?> ">
-        <div class="row row-cols-auto px-5 py-3 mx-auto">
+        <div class="row">
+            <div class="col pt-3 px-5">
+                <a class="btn btn-primary mx-3" href="createtask.php?label=">Add Task</a>
+            </div>
+        </div>
+        <div class="row row-cols-auto px-5 pb-3 mx-auto">
             
 <?php 
     $labels = array('In Progress', 'For Testing', 'For Publish', 'For Checking', 'Reopened', 'QA Passed', 'QA Failed');
     foreach ($labels as $label) { 
 ?>
-            <div class="col hstack mx-2 align-items-start my-3" style="width:15rem;">
+            <div class="col hstack align-items-start my-3" style="width:15rem;">
                 <div class="row row-cols-1">
                     <div class="col">
                         <h5><strong><?php echo $label?></strong></h5>
                     </div>
 <?php
-        $query = "SELECT * FROM tasks 
+        $query = "SELECT * 
+                    FROM tasks 
                     WHERE label = ?
                     AND tasks.projectid = ?";
         
@@ -29,53 +34,41 @@
         while ($row = mysqli_fetch_assoc($results)) {
             $requests[] = $row;
         }
-
+        $requests = array_map(fn($v) => $v === '' ? null : $v, $requests);
         foreach ($requests as $request) {
 ?>
-                    <div class="col py-2">
-                        <div class="card btn" data-bs-toggle="offcanvas" href="#task-offcanvas" role="button" aria-controls="task-offcanvas">
-                            <input type="hidden" name="<?php echo $request['taskid'];?>" value="">
-                            Link with href
-                        </a>
+                    <div class="col ">
+                        <a class="link-underline link-underline-opacity-0" href="task.php?taskid=<?php echo $request['taskid'];?>">
+                        <div class="card shadow my-1" style="width:13.5rem;">
+                            <h5 class="card-title px-3 py-2"><?php echo $request['task_name'];?></h5>
+                            <div class="card-footer">
+                                <p class="card-subtitle text-secondary">
+                                    <?php 
+                                    //  really stupid way of getting first assignee name in card footer
+                                        $query = "SELECT u.userid, u.f_name, u.l_name
+                                                    FROM users u, assignee a, tasks t
+                                                    WHERE a.userid = u.userid
+                                                    AND a.taskid = t.taskid
+                                                    AND t.taskid = " . $request['taskid'] ."
+                                                    LIMIT 1";
+                                        $taskresult = mysqli_query($con, $query);
+                                        $task = mysqli_fetch_assoc($taskresult);
+                                        if (!is_null($task)){
+                                            echo $task['f_name'] . $task['l_name'];
+                                        } else echo "No Assignees";
+                                    ?>
+                                </p>
+                            </div>
                         </div>
+                        </a>
                     </div>
 <?php } ?>
+                    <div class="col m-2">
+                        <a class="btn btn-primary" href="createtask.php?label=<?php echo $label?>">Add Task</a>
+                    </div>
                 </div>
             </div>
 <?php    
     }
     ?>
-        </form>
-        </div>
-        <div class="offcanvas offcanvas-end w-75" tabindex="1" id="task-offcanvas" aria-labelledby="task-offcanvasLabel">
-            <div class="offcanvas-header">
-                <h5 class="offcanvas-title" id="offcanvasExampleLabel">Offcanvas</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-            </div>
-            <div class="offcanvas-body">
-                <div>
-                Some text as placeholder. In real life you can have the elements you have chosen. Like, text, images, lists, etc.
-                </div>
-                <div class="dropdown mt-3">
-                <input type="text" name="taskid" id="taskid"/>
-                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                    Dropdown button
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Action</a></li>
-                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-
-<script>
-    $('#task-offcanvas').on('show.bs.offcanvas', function (event) {
-        let taskId = $(event.relatedTarget).data('taskid') 
-        console.log(taskId);
-        $(this).find('.offcanvas-body input').val(taskId)
-    })
-</script>
 <?php }

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 28, 2024 at 11:04 AM
+-- Generation Time: Oct 30, 2024 at 10:58 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -32,6 +32,16 @@ CREATE TABLE `assignee` (
   `taskid` int(11) NOT NULL,
   `userid` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `assignee`
+--
+
+INSERT INTO `assignee` (`assignid`, `taskid`, `userid`) VALUES
+(1, 6, 1),
+(2, 6, 2),
+(3, 7, 2),
+(4, 8, 1);
 
 -- --------------------------------------------------------
 
@@ -73,7 +83,8 @@ CREATE TABLE `p_members` (
 INSERT INTO `p_members` (`memberid`, `userid`, `projectid`) VALUES
 (1, 2, 1),
 (2, 2, 2),
-(3, 1, 2);
+(3, 1, 2),
+(4, 1, 3);
 
 -- --------------------------------------------------------
 
@@ -84,11 +95,11 @@ INSERT INTO `p_members` (`memberid`, `userid`, `projectid`) VALUES
 CREATE TABLE `tasks` (
   `taskid` int(11) NOT NULL,
   `task_name` varchar(255) NOT NULL,
-  `task_desc` text NOT NULL,
-  `label` enum('In Progress','For Testing','Reopened','For Checking','For Publish','Hidden') DEFAULT NULL,
-  `category` varchar(255) NOT NULL,
-  `est_time` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `due_date` date NOT NULL,
+  `task_desc` text DEFAULT NULL,
+  `label` enum('In Progress','For Testing','Reopened','For Checking','For Publish','QA Passed','QA Failed') DEFAULT NULL,
+  `time_est` time DEFAULT NULL,
+  `start_date` date DEFAULT NULL,
+  `due_date` date DEFAULT NULL,
   `created_by` int(11) NOT NULL,
   `projectid` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -97,17 +108,22 @@ CREATE TABLE `tasks` (
 -- Dumping data for table `tasks`
 --
 
-INSERT INTO `tasks` (`taskid`, `task_name`, `task_desc`, `label`, `category`, `est_time`, `due_date`, `created_by`, `projectid`) VALUES
-(1, 'Task 1', 'Task 1 Desc', 'In Progress', 'For Publish', '2024-10-28 09:45:13', '2024-10-31', 2, 2),
-(2, 'Task 2', 'Task 2 Desc', 'In Progress', 'For Publish', '2024-10-28 09:45:38', '2024-10-31', 2, 2),
-(3, 'Task 3', 'Task 3 Desc', 'In Progress', 'For Publish', '2024-10-28 09:45:47', '2024-10-31', 2, 2),
-(4, 'Task 4', 'Task 4 Desc', 'In Progress', 'For Publish', '2024-10-28 09:45:53', '2024-10-31', 2, 2),
-(5, 'Task 5', 'Task 5 Desc', 'In Progress', 'For Publish', '2024-10-28 09:45:59', '2024-10-31', 2, 2),
-(6, 'Task 1', 'Task 1 Desc', 'In Progress', 'For Publish', '2024-10-28 09:46:10', '2024-10-31', 2, 1),
-(7, 'Task 2', 'Task 2 Desc', 'In Progress', 'For Publish', '2024-10-28 09:46:18', '2024-10-31', 2, 1),
-(8, 'Task 3', 'Task 3 Desc', 'In Progress', 'For Publish', '2024-10-28 09:46:24', '2024-10-31', 2, 1),
-(9, 'Task 4', 'Task 4 Desc', 'In Progress', 'For Publish', '2024-10-28 09:46:30', '2024-10-31', 2, 1),
-(10, 'Task 5', 'Task 5 Desc', 'In Progress', 'For Publish', '2024-10-28 09:46:37', '2024-10-31', 2, 1);
+INSERT INTO `tasks` (`taskid`, `task_name`, `task_desc`, `label`, `time_est`, `start_date`, `due_date`, `created_by`, `projectid`) VALUES
+(1, 'Task 1', 'Task 1 Desc', 'In Progress', NULL, NULL, '2024-10-31', 2, 2),
+(2, 'Task 2', 'Task 2 Desc', 'In Progress', NULL, NULL, '2024-10-31', 2, 2),
+(3, 'Task 3', 'Task 3 Desc', 'In Progress', NULL, NULL, '2024-10-31', 2, 2),
+(4, 'Task 4', 'Task 4 Desc', 'In Progress', NULL, NULL, '2024-10-31', 2, 2),
+(5, 'Task 5', 'Task 5 Desc', 'In Progress', NULL, NULL, '2024-10-31', 2, 2),
+(6, 'Task 1', 'Task 1 Desc', 'In Progress', NULL, NULL, '2024-10-31', 2, 1),
+(7, 'Task 2', 'Task 2 Desc', 'In Progress', NULL, NULL, '2024-10-31', 2, 1),
+(8, 'Task 3', 'Task 3 Desc', 'In Progress', NULL, NULL, '2024-10-31', 2, 1),
+(9, 'Task 4', 'Task 4 Desc', 'In Progress', NULL, NULL, '2024-10-31', 2, 1),
+(10, 'Task 5', 'Task 5 Desc', 'In Progress', NULL, NULL, '2024-10-31', 2, 1),
+(13, 'Task 6', 'Task 6 Desc', 'For Testing', NULL, NULL, '2024-10-31', 2, 1),
+(14, 'Task 7', 'Task 7 Desc', 'For Testing', NULL, NULL, '2024-10-31', 1, 1),
+(15, 'Task 8', 'Task 8 Desc', 'For Publish', NULL, NULL, '2024-10-31', 1, 1),
+(16, 'Task 9', 'Task 9 Desc', 'For Publish', NULL, NULL, '2024-10-31', 1, 1),
+(17, 'Task 10', 'Task 10 Desc', 'For Publish', NULL, NULL, '2024-10-31', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -180,7 +196,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `assignee`
 --
 ALTER TABLE `assignee`
-  MODIFY `assignid` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `assignid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `projects`
@@ -192,13 +208,13 @@ ALTER TABLE `projects`
 -- AUTO_INCREMENT for table `p_members`
 --
 ALTER TABLE `p_members`
-  MODIFY `memberid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `memberid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `tasks`
 --
 ALTER TABLE `tasks`
-  MODIFY `taskid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `taskid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `users`
