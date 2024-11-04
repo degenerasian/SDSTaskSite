@@ -4,7 +4,6 @@
     if(!isset($_SESSION['privilege'])){
         $_SESSION['privilege'] = '';
     }
-    echo $_SESSION['privilege'];
     function get_navbar() {
 ?>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
@@ -25,7 +24,7 @@
                     if($_SESSION['privilege'] == 'Admin'){ ?>
 
                         <li class="nav-item px-3">
-                            <a class="nav-link text-white" href="../register.php">Manage Users</a>
+                            <a class="nav-link text-white" href="../users.php">Manage Users</a>
                         </li>
 
                         <li class="nav-item px-3">
@@ -47,8 +46,5 @@
     </div>
 </nav>
 <?php } 
-    function get_footer() { ?>
-    <p>footer works<p>
-<?php
-    }
+
 ?>

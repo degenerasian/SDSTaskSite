@@ -8,7 +8,7 @@
 <?php
 session_start();
 ?>
-<body>
+<body class="bg-body-tertiary">
 <div class="container">
     <div class="row px-auto mx-3 mt-5">
         <center><img src="img/logo w label.png" style="height:100px"></center>

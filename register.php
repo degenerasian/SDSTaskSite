@@ -12,7 +12,7 @@ require_once "services/db_config.php";
 require_once "modules/nav.php";
 get_navbar();
 ?>
-<body>
+<body class="bg-body-tertiary">
     <div class="container mt-5 w-50">
     <div class="row g-5">
     <div class="col logincontent"><!--Main Content w/ left & right margin = center-->

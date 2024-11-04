@@ -3,12 +3,7 @@
     function get_tasks($con, $proj_id) { 
 ?>
     <div class="container-fluid">
-        <div class="row">
-            <div class="col pt-3 px-5">
-                <a class="btn btn-primary mx-3" href="createtask.php?label=">Add Task</a>
-            </div>
-        </div>
-        <div class="row row-cols-auto px-5 pb-3 mx-auto">
+        <div class="row row-cols-auto px-2 pb-1 mx-auto">
             
 <?php 
     $labels = array('In Progress', 'For Testing', 'For Publish', 'For Checking', 'Reopened', 'QA Passed', 'QA Failed');

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 30, 2024 at 10:58 AM
+-- Generation Time: Nov 04, 2024 at 10:40 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -42,6 +42,31 @@ INSERT INTO `assignee` (`assignid`, `taskid`, `userid`) VALUES
 (2, 6, 2),
 (3, 7, 2),
 (4, 8, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `comments`
+--
+
+CREATE TABLE `comments` (
+  `commentid` int(11) NOT NULL,
+  `comment_text` text NOT NULL,
+  `userid` int(11) NOT NULL,
+  `taskid` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `img`
+--
+
+CREATE TABLE `img` (
+  `imgid` int(11) NOT NULL,
+  `image` blob NOT NULL,
+  `commentid` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -161,6 +186,18 @@ ALTER TABLE `assignee`
   ADD KEY `assignee_fk_task` (`taskid`);
 
 --
+-- Indexes for table `comments`
+--
+ALTER TABLE `comments`
+  ADD PRIMARY KEY (`commentid`);
+
+--
+-- Indexes for table `img`
+--
+ALTER TABLE `img`
+  ADD PRIMARY KEY (`imgid`);
+
+--
 -- Indexes for table `projects`
 --
 ALTER TABLE `projects`
@@ -199,6 +236,18 @@ ALTER TABLE `assignee`
   MODIFY `assignid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
+-- AUTO_INCREMENT for table `comments`
+--
+ALTER TABLE `comments`
+  MODIFY `commentid` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `img`
+--
+ALTER TABLE `img`
+  MODIFY `imgid` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `projects`
 --
 ALTER TABLE `projects`
@@ -220,7 +269,7 @@ ALTER TABLE `tasks`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `userid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `userid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Constraints for dumped tables

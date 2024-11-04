@@ -51,8 +51,16 @@
     ?>
 
     <body class="bg-body-tertiary">
-        <!--<div class="container-fluid px-5 py-3">
-            <h1><?php// echo $project['project_name'] ?></h1>-->
+        <div class="container-fluid px-5 py-3">
+            <div class="row row-cols-auto">
+                <div class="col mx-4">
+                    <h1><strong><?php echo $project['project_name'] ?></strong></h1>
+                </div>
+                <div class="col mx-4">
+                    <a class="btn btn-primary align-middle my-2 me-2">Add New Task</a>
+                    <a class="btn btn-warning align-middle my-2 me-2">Manage Users</a>
+                </div>
+            </div>
         <?php get_tasks($con, $projectid);?>    
 
     </body>
