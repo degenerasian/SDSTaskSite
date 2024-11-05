@@ -12,7 +12,7 @@
             <div class="col hstack align-items-start my-3" style="width:15rem;">
                 <div class="row row-cols-1">
                     <div class="col">
-                        <h5><strong><?php echo $label?></strong></h5>
+                        <h5><strong><?= $label?></strong></h5>
                     </div>
 <?php
         $query = "SELECT * 
@@ -33,9 +33,9 @@
         foreach ($requests as $request) {
 ?>
                     <div class="col ">
-                        <a class="link-underline link-underline-opacity-0" href="task.php?taskid=<?php echo $request['taskid'];?>">
+                        <a class="link-underline link-underline-opacity-0" href="task.php?taskid=<?= $request['taskid'];?>">
                         <div class="card shadow my-1" style="width:13.5rem;">
-                            <h5 class="card-title px-3 py-2"><?php echo $request['task_name'];?></h5>
+                            <h5 class="card-title px-3 py-2"><?= $request['task_name'];?></h5>
                             <div class="card-footer">
                                 <p class="card-subtitle text-secondary">
                                     <?php 
@@ -59,7 +59,7 @@
                     </div>
 <?php } ?>
                     <div class="col m-2">
-                        <a class="btn btn-primary" href="createtask.php?label=<?php echo $label?>">Add Task</a>
+                        <a class="btn btn-primary" href="createtask.php?label=<?= $label?>">Add Task</a>
                     </div>
                 </div>
             </div>

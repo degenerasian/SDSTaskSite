@@ -1,6 +1,11 @@
 <?php
 require_once "db_config.php";
 
+session_start();
+if(!isset($_SESSION['userid'])){
+    header('location: ./login.php');
+}
+
 if(isset($_POST['editdata'])) {
     $id = mysqli_escape_string($con, $_POST['userid']);
     $f_name = mysqli_escape_string($con, $_POST['firstname']);

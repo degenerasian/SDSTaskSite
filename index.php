@@ -44,11 +44,11 @@
                 
                 <?php foreach($requests as $request){ ?>
                 <div class="col py-2 pe-3">
-                    <a class="link-underline link-underline-opacity-0" href="project.php?projectid=<?php echo $request['projectid'];?>">
+                    <a class="link-underline link-underline-opacity-0" href="project.php?projectid=<?= $request['projectid'];?>">
                         <div class="card shadow mb-5" style="width: 20rem; height: 20rem;">
                             <div class="card-body">
-                                <h4><?php echo $request['project_name'];?></h4>
-                                <p class="card-text text-truncate"><?php echo $request['project_desc'];?></p>
+                                <h4><?= $request['project_name'];?></h4>
+                                <p class="card-text text-truncate"><?= $request['project_desc'];?></p>
                             </div>
                         </div>
                     </a>
