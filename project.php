@@ -79,7 +79,9 @@
                 </div>
                 <div class="col mx-4">
                     <a class="btn btn-primary align-middle my-2 me-2">Add New Task</a>
+                    <?php if($_SESSION['privilege'] == 'Admin'){ ?>
                     <button type="button" class="btn btn-warning align-middle my-2 me-2" data-bs-toggle="modal" data-bs-target="#inviteModal">Manage Members</button>
+                    <?php } ?>
                 </div>
             </div>
         <?php get_tasks($con, $projectid);?>

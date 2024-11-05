@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 04, 2024 at 10:40 AM
+-- Generation Time: Nov 05, 2024 at 12:30 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -109,7 +109,8 @@ INSERT INTO `p_members` (`memberid`, `userid`, `projectid`) VALUES
 (1, 2, 1),
 (2, 2, 2),
 (3, 1, 2),
-(4, 1, 3);
+(4, 1, 3),
+(5, 7, 2);
 
 -- --------------------------------------------------------
 
@@ -126,6 +127,7 @@ CREATE TABLE `tasks` (
   `start_date` date DEFAULT NULL,
   `due_date` date DEFAULT NULL,
   `created_by` int(11) NOT NULL,
+  `created_on` date NOT NULL DEFAULT current_timestamp(),
   `projectid` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -133,22 +135,22 @@ CREATE TABLE `tasks` (
 -- Dumping data for table `tasks`
 --
 
-INSERT INTO `tasks` (`taskid`, `task_name`, `task_desc`, `label`, `time_est`, `start_date`, `due_date`, `created_by`, `projectid`) VALUES
-(1, 'Task 1', 'Task 1 Desc', 'In Progress', NULL, NULL, '2024-10-31', 2, 2),
-(2, 'Task 2', 'Task 2 Desc', 'In Progress', NULL, NULL, '2024-10-31', 2, 2),
-(3, 'Task 3', 'Task 3 Desc', 'In Progress', NULL, NULL, '2024-10-31', 2, 2),
-(4, 'Task 4', 'Task 4 Desc', 'In Progress', NULL, NULL, '2024-10-31', 2, 2),
-(5, 'Task 5', 'Task 5 Desc', 'In Progress', NULL, NULL, '2024-10-31', 2, 2),
-(6, 'Task 1', 'Task 1 Desc', 'In Progress', NULL, NULL, '2024-10-31', 2, 1),
-(7, 'Task 2', 'Task 2 Desc', 'In Progress', NULL, NULL, '2024-10-31', 2, 1),
-(8, 'Task 3', 'Task 3 Desc', 'In Progress', NULL, NULL, '2024-10-31', 2, 1),
-(9, 'Task 4', 'Task 4 Desc', 'In Progress', NULL, NULL, '2024-10-31', 2, 1),
-(10, 'Task 5', 'Task 5 Desc', 'In Progress', NULL, NULL, '2024-10-31', 2, 1),
-(13, 'Task 6', 'Task 6 Desc', 'For Testing', NULL, NULL, '2024-10-31', 2, 1),
-(14, 'Task 7', 'Task 7 Desc', 'For Testing', NULL, NULL, '2024-10-31', 1, 1),
-(15, 'Task 8', 'Task 8 Desc', 'For Publish', NULL, NULL, '2024-10-31', 1, 1),
-(16, 'Task 9', 'Task 9 Desc', 'For Publish', NULL, NULL, '2024-10-31', 1, 1),
-(17, 'Task 10', 'Task 10 Desc', 'For Publish', NULL, NULL, '2024-10-31', 1, 1);
+INSERT INTO `tasks` (`taskid`, `task_name`, `task_desc`, `label`, `time_est`, `start_date`, `due_date`, `created_by`, `created_on`, `projectid`) VALUES
+(1, 'Task 1', 'Task 1 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 'In Progress', NULL, NULL, '2024-10-31', 2, '2024-11-05', 2),
+(2, 'Task 2', 'Task 2 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 'In Progress', NULL, NULL, '2024-10-31', 2, '2024-11-05', 2),
+(3, 'Task 3', 'Task 3 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 'In Progress', NULL, NULL, '2024-10-31', 2, '2024-11-05', 2),
+(4, 'Task 4', 'Task 4 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 'In Progress', NULL, NULL, '2024-10-31', 2, '2024-11-05', 2),
+(5, 'Task 5', 'Task 5 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 'In Progress', NULL, NULL, '2024-10-31', 2, '2024-11-05', 2),
+(6, 'Task 1', 'Task 1 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 'In Progress', NULL, NULL, '2024-10-31', 2, '2024-11-05', 1),
+(7, 'Task 2', 'Task 2 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 'In Progress', NULL, NULL, '2024-10-31', 2, '2024-11-05', 1),
+(8, 'Task 3', 'Task 3 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 'In Progress', NULL, NULL, '2024-10-31', 2, '2024-11-05', 1),
+(9, 'Task 4', 'Task 4 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 'In Progress', NULL, NULL, '2024-10-31', 2, '2024-11-05', 1),
+(10, 'Task 5', 'Task 5 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 'In Progress', NULL, NULL, '2024-10-31', 2, '2024-11-05', 1),
+(13, 'Task 6', 'Task 6 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 'For Testing', NULL, NULL, '2024-10-31', 2, '2024-11-05', 1),
+(14, 'Task 7', 'Task 7 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 'For Testing', NULL, NULL, '2024-10-31', 1, '2024-11-05', 1),
+(15, 'Task 8', 'Task 8 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 'For Publish', NULL, NULL, '2024-10-31', 1, '2024-11-05', 1),
+(16, 'Task 9', 'Task 9 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 'For Publish', NULL, NULL, '2024-10-31', 1, '2024-11-05', 1),
+(17, 'Task 10', 'Task 10 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 'For Publish', NULL, NULL, '2024-10-31', 1, '2024-11-05', 1);
 
 -- --------------------------------------------------------
 
@@ -171,7 +173,13 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`userid`, `f_name`, `l_name`, `email`, `password`, `privilege`) VALUES
 (1, 'Cedric', 'Ty (User)', 'cedricuser@sds.com', 'user123', 'User'),
-(2, 'Cedric', 'Ty (Admin)', 'cedricadmin@sds.com', 'admin123', 'Admin');
+(2, 'Cedric', 'Ty (Admin)', 'cedricadmin@sds.com', 'admin123', 'Admin'),
+(7, 'User1', 'One', 'user1@sds.com', '123456', 'Admin'),
+(8, 'User2', 'Two', 'user2@sds.com', '123456', 'Admin'),
+(9, 'User3', 'Three', 'user3@sds.com', '123456', 'User'),
+(10, 'User4', 'Four', 'user4@sds.com', '123456', 'User'),
+(11, 'User5', 'Five', 'user5@sds.com', '123456', 'User'),
+(12, 'User6', 'Six', 'user6@sds.com', '123456', 'User');
 
 --
 -- Indexes for dumped tables
@@ -257,7 +265,7 @@ ALTER TABLE `projects`
 -- AUTO_INCREMENT for table `p_members`
 --
 ALTER TABLE `p_members`
-  MODIFY `memberid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `memberid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `tasks`
@@ -269,7 +277,7 @@ ALTER TABLE `tasks`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `userid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `userid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- Constraints for dumped tables

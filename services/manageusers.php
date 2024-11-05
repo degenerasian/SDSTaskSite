@@ -6,6 +6,8 @@ if(!isset($_SESSION['userid'])){
     header('location: ./login.php');
 }
 
+if($_SESSION['privilege'] != 'Admin') header('location: ./index.php');
+
 $projectid = mysqli_escape_string($con, $_GET['projectid']);
 // echo $projectid;
 
