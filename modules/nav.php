@@ -18,7 +18,7 @@
                     <a class="nav-link active text-white" aria-current="page" href="../index.php">Projects</a>
                 </li>
                 <li class="nav-item px-3">
-                    <a class="nav-link text-white" href="../charts.php">Charts</a>
+                    <a class="nav-link text-white" href="../gantt.php">Charts</a>
                 </li>
                 <?php
                     if($_SESSION['privilege'] == 'Admin'){ ?>

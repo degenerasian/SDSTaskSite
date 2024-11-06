@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 06, 2024 at 08:48 AM
+-- Generation Time: Nov 06, 2024 at 09:59 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -121,10 +121,10 @@ CREATE TABLE `tasks` (
   `taskid` int(11) NOT NULL,
   `task_name` varchar(255) NOT NULL,
   `task_desc` text DEFAULT NULL,
-  `label` enum('In Progress','For Testing','Reopened','For Checking','For Publish','QA Passed','QA Failed') DEFAULT NULL,
-  `time_est` time DEFAULT '00:00:00',
-  `start_date` date DEFAULT current_timestamp(),
-  `due_date` date DEFAULT current_timestamp(),
+  `label` enum('In Progress','For Testing','Reopened','For Checking','For Publish','QA Passed','QA Failed') NOT NULL,
+  `time_est` time NOT NULL DEFAULT '00:00:00',
+  `start_date` date NOT NULL DEFAULT current_timestamp(),
+  `due_date` date NOT NULL DEFAULT current_timestamp(),
   `created_by` int(11) NOT NULL,
   `created_on` date NOT NULL DEFAULT current_timestamp(),
   `projectid` int(11) NOT NULL
@@ -135,7 +135,7 @@ CREATE TABLE `tasks` (
 --
 
 INSERT INTO `tasks` (`taskid`, `task_name`, `task_desc`, `label`, `time_est`, `start_date`, `due_date`, `created_by`, `created_on`, `projectid`) VALUES
-(1, 'Task 1', 'Task 1 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 'In Progress', '00:00:00', '2024-11-06', '2024-11-19', 2, '2024-11-05', 2),
+(1, 'Task 1', 'Task 1 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 'In Progress', '00:00:00', '2024-11-01', '2024-12-11', 2, '2024-11-05', 2),
 (2, 'Task 2', 'Task 2 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 'In Progress', '00:00:00', '2024-11-06', '2024-11-15', 2, '2024-11-05', 2),
 (3, 'Task 3', 'Task 3 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 'In Progress', '00:00:00', '2024-11-06', '2024-11-12', 2, '2024-11-05', 2),
 (4, 'Task 4', 'Task 4 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 'In Progress', '00:00:00', '2024-11-06', '2024-11-10', 2, '2024-11-05', 2),
@@ -149,7 +149,7 @@ INSERT INTO `tasks` (`taskid`, `task_name`, `task_desc`, `label`, `time_est`, `s
 (14, 'Task 7', 'Task 7 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 'For Testing', '00:00:00', '2024-11-06', '2024-11-30', 1, '2024-11-05', 1),
 (15, 'Task 8', 'Task 8 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 'For Publish', '00:00:00', '2024-11-06', '2024-11-30', 1, '2024-11-05', 1),
 (16, 'Task 9', 'Task 9 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 'For Publish', '00:00:00', '2024-11-06', '2024-11-30', 1, '2024-11-05', 1),
-(17, 'Task 10', 'Task 10 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 'For Publish', '00:00:00', '0000-00-00', '2024-11-30', 1, '2024-11-05', 1);
+(17, 'Task 10', 'Task 10 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 'For Publish', '00:00:00', '2024-11-01', '2024-11-30', 1, '2024-11-05', 1);
 
 -- --------------------------------------------------------
 
