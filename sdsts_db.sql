@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 06, 2024 at 09:59 AM
+-- Generation Time: Nov 06, 2024 at 01:15 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -65,8 +65,9 @@ CREATE TABLE `comments` (
 
 CREATE TABLE `img` (
   `imgid` int(11) NOT NULL,
-  `image` blob NOT NULL,
-  `commentid` int(11) NOT NULL
+  `image` varchar(255) NOT NULL,
+  `taskid` int(11) DEFAULT NULL,
+  `commentid` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -195,13 +196,17 @@ ALTER TABLE `assignee`
 -- Indexes for table `comments`
 --
 ALTER TABLE `comments`
-  ADD PRIMARY KEY (`commentid`);
+  ADD PRIMARY KEY (`commentid`),
+  ADD KEY `com_fk_task` (`taskid`),
+  ADD KEY `com_fk_user` (`userid`);
 
 --
 -- Indexes for table `img`
 --
 ALTER TABLE `img`
-  ADD PRIMARY KEY (`imgid`);
+  ADD PRIMARY KEY (`imgid`),
+  ADD KEY `img_pk_task` (`taskid`),
+  ADD KEY `img_fk_comments` (`commentid`);
 
 --
 -- Indexes for table `projects`
@@ -287,6 +292,21 @@ ALTER TABLE `users`
 ALTER TABLE `assignee`
   ADD CONSTRAINT `assignee_fk_task` FOREIGN KEY (`taskid`) REFERENCES `tasks` (`taskid`),
   ADD CONSTRAINT `assignee_fk_user` FOREIGN KEY (`userid`) REFERENCES `users` (`userid`);
+
+--
+-- Constraints for table `comments`
+--
+ALTER TABLE `comments`
+  ADD CONSTRAINT `com_fk_task` FOREIGN KEY (`taskid`) REFERENCES `tasks` (`taskid`),
+  ADD CONSTRAINT `com_fk_user` FOREIGN KEY (`userid`) REFERENCES `users` (`userid`);
+
+--
+-- Constraints for table `img`
+--
+ALTER TABLE `img`
+  ADD CONSTRAINT `img_fk_comments` FOREIGN KEY (`commentid`) REFERENCES `comments` (`commentid`),
+  ADD CONSTRAINT `img_pk_comment` FOREIGN KEY (`commentid`) REFERENCES `comments` (`commentid`),
+  ADD CONSTRAINT `img_pk_task` FOREIGN KEY (`taskid`) REFERENCES `tasks` (`taskid`);
 
 --
 -- Constraints for table `p_members`

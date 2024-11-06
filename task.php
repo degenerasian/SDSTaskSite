@@ -18,6 +18,7 @@
         }        
         require_once "services/db_config.php";
         require_once "modules/nav.php";
+        require_once "services/getimages.php";
         
         get_navbar();
         // Get general task details
@@ -67,6 +68,35 @@
             while ($row = mysqli_fetch_assoc($results)) {
                 $n_assignees[] = $row;
             }
+
+        // Get comments
+        $query = "SELECT c.*, u.f_name, u.l_name
+                    FROM comments c
+                    INNER JOIN users u ON u.userid = c.userid
+                    WHERE c.taskid = ?";
+            
+            $stmt = $con->prepare($query);
+            $stmt->bind_param('i', $taskid);
+            $stmt->execute();
+            $results = $stmt->get_result();
+            $comments = array();
+            while ($row = mysqli_fetch_assoc($results)) {
+                $comments[] = $row;
+            }
+
+        // // Get task images
+        // $query = "SELECT *
+        //             FROM img
+        //             WHERE img.taskid = ?";
+            
+        //     $stmt = $con->prepare($query);
+        //     $stmt->bind_param('i', $taskid);
+        //     $stmt->execute();
+        //     $results = $stmt->get_result();
+        //     $images = array();
+        //     while ($row = mysqli_fetch_assoc($results)) {
+        //         $images[] = $row;
+        //     }
     ?>
 
     <body class="bg-body-tertiary">
@@ -83,8 +113,62 @@
             </div>
             <div class="row">
                 <hr>
-                <div class="col-12 col-lg-7 col-xl-7 mb-4 me-2 shadow rounded bg-white p-4">
-                    <p><?= $task['task_desc']?></p>
+                <div class="col-12 col-lg-7 col-xl-7">
+                    <div class="col shadow rounded bg-white mb-4 p-4">
+                        <p><?= $task['task_desc']?></p>
+                        <?php 
+                        $task_img = array();
+                        $task_img = get_images($con, 'task', $taskid);
+                        if($task_img) { ?>
+                            <div class="row">
+                                <?php foreach ($task_img as $ti) { ?>
+                                    <div class="col-auto">
+                                        <img src="uploads/<?= $ti['image']?>">
+                                    </div>
+                                <?php } ?>
+                                </div>
+                            <?php } ?>
+                        </div>
+                    <div class="col shadow rounded bg-white mb-4 p-4">
+                        <h4>Comments</h4>
+                        <form method="POST" action="services/comment.php?taskid=<?= $taskid?>" enctype="multipart/form-data">
+                        <div class="mb-3">
+                            <textarea class="form-control" id="commentbody" name="commentbody" rows="5"></textarea>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-12 mb-3">
+                                <label for="attachment" class="form-label">Attachments</label>
+                                <input class="form-control" type="file" id="attachment" name="attachment[]" multiple>
+                            </div> 
+                            <div class="col-12 mb-2">
+                                <button type="submit" name="comment" class="btn btn-success float-end">Comment</input>
+                            </div> 
+                        </div>
+                        </form>
+                        <?php if($comments) { ?>
+                        <div class="row row-cols-1">
+                            <?php foreach ($comments as $c) { 
+                                $comment_img = array();
+                                $comment_img = get_images($con, 'comment', $c['commentid']);
+                                ?>
+                            <div class="col shadow rounded bg-white mb-4 px-4 pt-4">
+                                <p><?= $c['f_name'] . " " . $c['l_name']?></p>
+                                <hr>   
+                                <p><?= $c['comment_text']?></p>
+                                <?php if($comment_img) {?>
+                                    <div class="row">
+                                    <?php foreach ($comment_img as $i) { ?>
+                                        <div class="col-12 py-2">
+                                            <img src="uploads/<?= $i['image']?>" class="img-fluid" style="max-width:450px;">
+                                        </div>
+                                    <?php } ?>
+                                    </div>
+                                <?php } ?>
+                            </div>
+                            <?php } ?>
+                        </div>
+                        <?php } ?>
+                    </div>
                 </div>
                 <div class="col-12 col-lg-4 col-xl-3 px-4 mb-4 py-3 bg-white shadow rounded">
                     <h4>Assignees</h4>
@@ -104,7 +188,8 @@
                         <p>No users assigned to this task.</p>
                     <?php } ?>
                     <button type="button" class="btn btn-warning align-middle" data-bs-toggle="modal" data-bs-target="#inviteModal">Manage</button>
-                </div> 
+                </div>
+                
             </div>
         </div>  
 
