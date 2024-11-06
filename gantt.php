@@ -1,7 +1,6 @@
 <?php
     include 'services/db_config.php';
     session_start();
-
     include "modules/nav.php";
     get_navbar();
 ?>
@@ -17,26 +16,37 @@
     $sql = mysqli_query($con, "SELECT project_name, projectid FROM projects");
     $data = $sql->fetch_all(MYSQLI_ASSOC);
 ?>
-<div class="container my-3 mx-2">
-<form method="POST">
-Select Project: 
-    <select name="projects" onchange='this.form.submit()'>
-        <option value=""></option>
-            <?php foreach ($data as $row): ?>
-                <option value="<?= htmlspecialchars($row['projectid']) ?>">
-                    <?= htmlspecialchars($row['project_name']) ?>
-                </option>
-        <?php endforeach ?>
-    </select>
-    
-    <input name='submit' type='submit' value="Create Gantt Chart">
-</form>
+<div class="container-fluid">
+    <div class="row py-3">
+        <form method="POST">
+        <div class="row">   
+            <div class="col-auto">
+                <h5>Select Project:</h5>
             </div>
+            <div class="col-auto">
+                <select class="form-select" name="projects" onchange='this.form.submit()'>
+                    <option value=""></option>
+                        <?php foreach ($data as $row): ?>
+                            <option value="<?= htmlspecialchars($row['projectid']) ?>">
+                                <?= htmlspecialchars($row['project_name']) ?>
+                            </option>
+                    <?php endforeach ?>
+                </select>
+            </div>
+            <div class="col-auto">
+                <input class="btn btn-secondary" name='submit' type='submit' value="Create Gantt Chart">
+            </form>
+        </div>
+    </div>
 <?php if($_POST['submit']){ ?>
+    <div style='margin-top: 10%'></div>
 
     <!--GANTT CHART -->
+    <div class="row mx-2 overflow-scroll">
+        <table class='table border border-black'>
+            <tr>
+                <td colspan = '3' rowspan='2'></td>
     <?php
-    echo "<table class='table' style='border: 1px solid gray'>";
 
     $taskids = array();
     $tasknames = array();
@@ -50,14 +60,14 @@ Select Project:
     $query = "SELECT * FROM tasks WHERE projectid = '".$_POST["projects"]."'";
     $result = mysqli_query($con, $query);
     while ($recordss = mysqli_fetch_assoc($result)){
-    array_push($taskids, $recordss['taskid']);
-    array_push($tasknames, $recordss['task_name']);
-    array_push($taskdescs, $recordss['task_desc']);
-    array_push($labels, $recordss['label']);
-    array_push($categories, $recordss['label']);
-    array_push($esttimes, $recordss['time_est']);
-    array_push($fromdates, $recordss['start_date']);
-    array_push($duedates, $recordss['due_date']);
+        array_push($taskids, $recordss['taskid']);
+        array_push($tasknames, $recordss['task_name']);
+        array_push($taskdescs, $recordss['task_desc']);
+        array_push($labels, $recordss['label']);
+        array_push($categories, $recordss['label']);
+        array_push($esttimes, $recordss['time_est']);
+        array_push($fromdates, $recordss['start_date']);
+        array_push($duedates, $recordss['due_date']);
     }
 
     $task_min_date = min($fromdates);
@@ -71,10 +81,9 @@ Select Project:
     while (date('l', strtotime($max_date)) != "Saturday"){
         $max_date = date('Y-m-d', strtotime($max_date. ' +1 day'));
     }
+?>
 
-    echo "<tr>
-            <td colspan = '3'> </td>";
-
+<?php
     $current_month = date('M', strtotime($min_date));
     $new_month = $current_month;
     $date = $min_date;
@@ -93,8 +102,7 @@ Select Project:
     $colspan++;
     echo "<td colspan='" .$colspan. "' style='text-align: center; border: 1px solid gray'>" .$current_month. "</td>";
     echo "</tr>
-            <tr>
-            <td colspan = '3'> </td>";
+            <tr>";
 
     $current_day = date('l', strtotime($min_date));
     $date = $min_date;
@@ -149,7 +157,7 @@ Select Project:
             $j = 0;
             while($date <= $max_date){
                 if ($date >= $fromdates[$i] && $date <= $duedates[$i]){
-                    echo "<td style='background-color: gray'></td>";
+                    echo "<td class='bg-secondary border border-black'></td>";
                 } else {
                     echo "<td> </td>";
                 }
