@@ -30,7 +30,8 @@
             $requests[] = $row;
         }
         $requests = array_map(fn($v) => $v === '' ? null : $v, $requests);
-        foreach ($requests as $request) {
+        if($requests) {
+            foreach ($requests as $request) {
 ?>
                     <div class="col ">
                         <a class="link-underline link-underline-opacity-0" href="task.php?taskid=<?= $request['taskid'];?>">
@@ -57,10 +58,7 @@
                         </div>
                         </a>
                     </div>
-<?php } ?>
-                    <div class="col m-2">
-                        <a class="btn btn-primary" href="createtask.php?label=<?= $label?>">Add Task</a>
-                    </div>
+<?php }} else { ?><p>No tasks yet. <?php } ?>
                 </div>
             </div>
 <?php    

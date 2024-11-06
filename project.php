@@ -88,16 +88,17 @@
 
 
     <!--    Invite Modal    -->
-        <div class="modal fade" id="inviteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="inviteModal" tabindex="-1" aria-labelledby="inviteModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Manage Members</h1>
+                    <h1 class="modal-title fs-5" id="inviteModalLabel">Manage Members</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <h5>Add to <?= $project['project_name'];?></h5>
                     <form method="POST" action="services/manageusers.php?projectid=<?= $projectid?>">
+                    <?php if($n_members){ ?>
                     <table class="table table-hover table-borderless">
                         <colgroup>
                         <col style="width:1%;">
@@ -110,40 +111,39 @@
                         </thead>
                         <tbody>
                         <?php
-                        if($n_members){
                             foreach ($n_members as $n) { ?>
                             <tr>
                                 <td><input type="checkbox" name="addid[]" value="<?= $n['userid']?>"></td>
                                 <td><?= $n['f_name'] . " " . $n['l_name'];?></td>
                             </tr>
-                        <?php }
-                            } else { ?>No members available. <?php } ?>
+                            <?php } ?>
                         </tbody>
                     </table>
+                    <?php } else { ?>No members available. <?php } ?>
                     <hr>
                     <h5>Remove from <?= $project['project_name'];?></h5>
-                    <table class="table table-hover table-borderless">
-                        <colgroup>
-                        <col style="width:1%;">
-                        <col>
-                        <thead class="table-dark">
-                            <tr>
-                                <th>Remove</th>
-                                <th>Name</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        <?php 
-                        if($members){
-                            foreach ($members as $m) { ?>
-                            <tr>
-                                <td><input type="checkbox" name="removeid[]" value="<?= $m['userid']?>"></td>
-                                <td><?= $m['f_name'] . " " . $m['l_name'];?></td>
-                            </tr>
-                        <?php } 
-                            } else { ?>This project has no members. <?php } ?>
-                        </tbody>
-                    </table>
+                    <?php if($members) { ?>
+                        <table class="table table-hover table-borderless">
+                            <colgroup>
+                            <col style="width:1%;">
+                            <col>
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Remove</th>
+                                    <th>Name</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                <?php foreach ($members as $m) { ?>
+                                <tr>
+                                    <td><input type="checkbox" name="removeid[]" value="<?= $m['userid']?>"></td>
+                                    <td><?= $m['f_name'] . " " . $m['l_name'];?></td>
+                                </tr>
+                            <?php } ?>
+                            </tbody>
+                        </table>
+                    <?php } else { ?>This project has no members. <?php } ?>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -154,6 +154,7 @@
             </div>
         </div>
 
+    
     </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </html>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 28, 2024 at 11:04 AM
+-- Generation Time: Nov 06, 2024 at 08:48 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -31,6 +31,31 @@ CREATE TABLE `assignee` (
   `assignid` int(11) NOT NULL,
   `taskid` int(11) NOT NULL,
   `userid` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `comments`
+--
+
+CREATE TABLE `comments` (
+  `commentid` int(11) NOT NULL,
+  `comment_text` text NOT NULL,
+  `userid` int(11) NOT NULL,
+  `taskid` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `img`
+--
+
+CREATE TABLE `img` (
+  `imgid` int(11) NOT NULL,
+  `image` blob NOT NULL,
+  `commentid` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -66,12 +91,13 @@ CREATE TABLE `p_members` (
 CREATE TABLE `tasks` (
   `taskid` int(11) NOT NULL,
   `task_name` varchar(255) NOT NULL,
-  `task_desc` text NOT NULL,
-  `label` enum('In Progress','For Testing','Reopened','For Checking','For Publish','Hidden') DEFAULT NULL,
-  `category` varchar(255) NOT NULL,
-  `est_time` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `due_date` date NOT NULL,
+  `task_desc` text DEFAULT NULL,
+  `label` enum('In Progress','For Testing','Reopened','For Checking','For Publish','QA Passed','QA Failed') DEFAULT NULL,
+  `time_est` time DEFAULT '00:00:00',
+  `start_date` date DEFAULT current_timestamp(),
+  `due_date` date DEFAULT current_timestamp(),
   `created_by` int(11) NOT NULL,
+  `created_on` date NOT NULL DEFAULT current_timestamp(),
   `projectid` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -101,6 +127,18 @@ ALTER TABLE `assignee`
   ADD PRIMARY KEY (`assignid`),
   ADD KEY `assignee_fk_user` (`userid`),
   ADD KEY `assignee_fk_task` (`taskid`);
+
+--
+-- Indexes for table `comments`
+--
+ALTER TABLE `comments`
+  ADD PRIMARY KEY (`commentid`);
+
+--
+-- Indexes for table `img`
+--
+ALTER TABLE `img`
+  ADD PRIMARY KEY (`imgid`);
 
 --
 -- Indexes for table `projects`
@@ -138,7 +176,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `assignee`
 --
 ALTER TABLE `assignee`
-  MODIFY `assignid` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `assignid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+
+--
+-- AUTO_INCREMENT for table `comments`
+--
+ALTER TABLE `comments`
+  MODIFY `commentid` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `img`
+--
+ALTER TABLE `img`
+  MODIFY `imgid` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `projects`
@@ -150,19 +200,19 @@ ALTER TABLE `projects`
 -- AUTO_INCREMENT for table `p_members`
 --
 ALTER TABLE `p_members`
-  MODIFY `memberid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `memberid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `tasks`
 --
 ALTER TABLE `tasks`
-  MODIFY `taskid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `taskid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `userid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `userid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- Constraints for dumped tables

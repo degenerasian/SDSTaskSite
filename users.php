@@ -19,7 +19,7 @@
         get_navbar();
         
         require_once "services/db_config.php";
-        $query = "SELECT u.userid, u.f_name, u.l_name, u.privilege
+        $query = "SELECT u.userid, u.f_name, u.l_name, u.email, u.privilege
                     FROM users u";
                     
         $stmt = $con->prepare($query);

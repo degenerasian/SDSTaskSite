@@ -1,5 +1,9 @@
 <?php
     include 'services/db_config.php';
+    session_start();
+
+    include "modules/nav.php";
+    get_navbar();
 ?>
 <html>
 
@@ -13,7 +17,7 @@
     $sql = mysqli_query($con, "SELECT project_name, projectid FROM projects");
     $data = $sql->fetch_all(MYSQLI_ASSOC);
 ?>
-
+<div class="container my-3 mx-2">
 <form method="POST">
 Select Project: 
     <select name="projects" onchange='this.form.submit()'>
@@ -27,9 +31,8 @@ Select Project:
     
     <input name='submit' type='submit' value="Create Gantt Chart">
 </form>
-
+            </div>
 <?php if($_POST['submit']){ ?>
-    <div style='margin-top: 10%'></div>
 
     <!--GANTT CHART -->
     <?php
@@ -51,9 +54,9 @@ Select Project:
     array_push($tasknames, $recordss['task_name']);
     array_push($taskdescs, $recordss['task_desc']);
     array_push($labels, $recordss['label']);
-    array_push($categories, $recordss['category']);
-    array_push($esttimes, $recordss['est_time']);
-    array_push($fromdates, $recordss['from_date']);
+    array_push($categories, $recordss['label']);
+    array_push($esttimes, $recordss['time_est']);
+    array_push($fromdates, $recordss['start_date']);
     array_push($duedates, $recordss['due_date']);
     }
 
