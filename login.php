@@ -7,6 +7,9 @@
 </head>
 <?php
 session_start();
+if(isset($_SESSION['userid'])){
+    header('location: ./index.php');
+}
 ?>
 <body class="bg-body-tertiary">
 <div class="container">

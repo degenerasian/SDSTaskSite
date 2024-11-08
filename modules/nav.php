@@ -28,7 +28,7 @@
                         </li>
 
                         <li class="nav-item px-3">
-                            <a class="nav-link text-white" href="../register.php">Create New Project</a>
+                            <a class="nav-link text-white" href="../manageprojects.php">Manage Projects</a>
                         </li>
                     <?php }
                 ?>

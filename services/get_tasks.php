@@ -38,7 +38,11 @@
                     <div class="col ">
                         <a class="link-underline link-underline-opacity-0" href="task.php?taskid=<?= $request['taskid'];?>">
                         <div class="card shadow my-1" style="width:13.5rem;">
-                            <h5 class="card-title px-3 py-2"><?= $request['task_name'];?></h5>
+                            <div class="row row-cols-2">
+                                <div class="col-auto">
+                                    <p class="card-title px-3 py-2 text-black"><?= $request['task_name'];?></p>
+                                </div>
+                            </div>
                             <div class="card-footer">
                                 <p class="card-subtitle text-secondary">
                                     <?php 
@@ -106,7 +110,7 @@
                         </div>
                     </div>
                 </div> 
-            </a>    
+            </a>
 <?php           }
             } else { ?><p>No tasks yet.</p><?php } ?>
 <?php   } ?>

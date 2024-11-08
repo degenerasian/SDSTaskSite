@@ -21,11 +21,11 @@
 <div class="container-fluid">
     <div class="row py-3">
         <form method="POST">
-        <div class="row">   
-            <div class="col-auto mb-2">
+        <div class="row m-4">   
+            <div class="col-auto">
                 <h5>Select Project:</h5>
             </div>
-            <div class="col-auto mb-2">
+            <div class="col-auto">
                 <select class="form-select" name="projects" onchange='this.form.submit()'>
                     <option value=""></option>
                         <?php foreach ($data as $row): ?>
@@ -80,6 +80,11 @@
         } ?>
         
         <!--GANTT CHART -->
+        <div class="row mt-2 mb-4">
+        <div class="col-auto mx-2">
+            <a class="btn btn-primary" href="project.php?projectid=<?= $_POST['projects']?>">Go to project</a>
+        </div>
+        </div>
         <div class="row mx-2 overflow-scroll">
             <table class='table border border-black'>
             <thead>

@@ -66,7 +66,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="deleteModalLabel">Delete user?</h1>
+        <h1 class="modal-title fs-5" id="deleteModalLabel">Delete this user?</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cancel"></button>
       </div>
       <form action="services/deleteuser.php" method="POST">

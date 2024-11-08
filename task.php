@@ -102,8 +102,26 @@
     <body class="bg-body-tertiary">
         <div class="container-fluid px-5 py-3">
             <div class="row">
-                <div class="col mt-4">
+                <div class="col-auto mt-4">
                     <h1><strong><?= $task['task_name'] ?></strong></h1>
+                </div>
+                <div class="col-auto mt-4 align-self-center">
+                    <h5 class="
+                        <?php if ($task['label']=='QA Failed'){ ?>         text-danger
+                        <?php } elseif ($task['label']=='QA Passed'){ ?>   text-success
+                        <?php } else { ?>                                  text-secondary
+                        <?php } ?>">
+                        &#x2022; <?= $task['label'] ?>
+                    </h5>
+                </div>
+                <div class="col-auto mt-4 align-self-center">
+                    <button class="btn" type="button" data-bs-toggle="dropdown" aria-expanded="false"><img src="img/ellipsis.png"></button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Edit Task</a></li>
+                        <li><a class="dropdown-item" href="#">Duplicate Task</a></li>
+                        <hr>
+                        <li><button class="dropdown-item text-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete Task</a></li>
+                    </ul>
                 </div>
             </div>
             <div class="row">
@@ -133,7 +151,7 @@
                         <h4>Comments</h4>
                         <form method="POST" action="services/comment.php?taskid=<?= $taskid?>" enctype="multipart/form-data">
                         <div class="mb-3">
-                            <textarea class="form-control" id="commentbody" name="commentbody" rows="5"></textarea>
+                            <textarea class="form-control" id="commentbody" name="commentbody" rows="5" style="resize:none;"></textarea>
                         </div>
                         <div class="row mb-3">
                             <div class="col-12 mb-3">
@@ -188,8 +206,48 @@
                         <p>No users assigned to this task.</p>
                     <?php } ?>
                     <button type="button" class="btn btn-warning align-middle" data-bs-toggle="modal" data-bs-target="#inviteModal">Manage</button>
+                    <hr>
+                    <form>
+                    <div class="row my-3">
+                        <h5>Label</h5>
+                        <div class="col py-2">
+                            <select class="form-select" aria-label="Default select example">  
+                                <option selected disabled>Select label</option>
+                                <option value="In Progress"<?=$task['label'] == 'In Progress' ? ' selected="selected"' : '';?>>In Progress</option>
+                                <option value="For Testing"<?=$task['label'] == 'For Testing' ? ' selected="selected"' : '';?>>For Testing</option>
+                                <option value="For Publish"<?=$task['label'] == 'For Publish' ? ' selected="selected"' : '';?>>For Publish</option>
+                                <option value="For Checking"<?=$task['label'] == 'For Checking' ? ' selected="selected"' : '';?>>For Checking</option>
+                                <option value="Reopened"<?=$task['label'] == 'Reopened' ? ' selected="selected"' : '';?>>Reopened</option>
+                                <option value="QA Passed"<?=$task['label'] == 'QA Passed' ? ' selected="selected"' : '';?>>QA Passed</option>
+                                <option value="QA Failed"<?=$task['label'] == 'QA Failed' ? ' selected="selected"' : '';?>>QA Failed</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row my-3">
+                        <h5>Due Date</h5>
+                        <div class="col py-2">
+                            <label for="startDate">Start</label>
+                            <input id="startDate" class="form-control" type="date">
+                        </div>
+                        <div class="col py-2">
+                            <label for="startDate">End</label>
+                            <input id="startDate" class="form-control" type="date">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <h5>Time Estimation</h5>
+                        <div class="col py-2">
+                            <label for="hours">Hours</label>
+                            <input class="form-control" type="number" name="hours" id="hours" min="0" value="00">
+                        </div>
+                        <div class="col py-2">
+                            <label for="minutes">Minutes</label>
+                            <input class="form-control" type="number" name="minutes" id="minutes" min="0" max="60" value="00">
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-success align-middle my-2">Save Changes</button>
+                    </form>
                 </div>
-                
             </div>
         </div>  
 
@@ -205,6 +263,28 @@
                 <form action="services/deleteassignee.php?taskid=<?= $taskid?>" method="POST">
                 <div class="modal-body">
                     <input type="hidden" name="remove_id" id="remove_id">
+                    This can't be undone.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" name="removedata" class="btn btn-danger">Remove</button>
+                    </form>
+                </div>
+                </div>
+            </div>
+        </div>
+
+         <!--    Delete Task    -->
+         <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="deleteModalLabel">Delete this task?</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cancel"></button>
+                </div>
+                <form action="services/deletetask.php?taskid=<?= $taskid?>" method="POST">
+                <div class="modal-body">
+                    <input type="hidden" name="delete_id" id="delete_id">
                     This can't be undone.
                 </div>
                 <div class="modal-footer">
@@ -251,28 +331,31 @@
                     <?php } ?>
                     <hr>
                     <h5>Remove from <?= $task['task_name'];?></h5>
-                    <table class="table table-hover table-borderless">
-                        <colgroup>
-                        <col style="width:1%;">
-                        <col>
-                        <thead class="table-dark">
-                            <tr>
-                                <th>Remove</th>
-                                <th>Name</th>
-                            </tr>
-                        </thead>
-                        <tbody>
+                   
                         <?php 
-                        if($assignees){
+                        if($assignees){ ?>
+                        <table class="table table-hover table-borderless">
+                            <colgroup>
+                            <col style="width:1%;">
+                            <col>
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Remove</th>
+                                    <th>Name</th>
+                                </tr>
+                            </thead>
+                            <tbody>    
+                        <?php
                             foreach ($assignees as $m) { ?>
                             <tr>
                                 <td><input type="checkbox" name="removeid[]" value="<?= $m['userid']?>"></td>
                                 <td><?= $m['f_name'] . " " . $m['l_name'];?></td>
                             </tr>
-                        <?php } 
-                            } else { ?>This project has no assignees. <?php } ?>
-                        </tbody>
-                    </table>
+                        <?php } ?>
+                            </tbody>
+                        </table>
+                        <?php } else { ?>This project has no assignees. <?php } ?>
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
