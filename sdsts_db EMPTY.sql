@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 06, 2024 at 08:48 AM
+-- Generation Time: Nov 10, 2024 at 05:49 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -54,8 +54,9 @@ CREATE TABLE `comments` (
 
 CREATE TABLE `img` (
   `imgid` int(11) NOT NULL,
-  `image` blob NOT NULL,
-  `commentid` int(11) NOT NULL
+  `image` varchar(255) NOT NULL,
+  `taskid` int(11) DEFAULT NULL,
+  `commentid` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -92,10 +93,10 @@ CREATE TABLE `tasks` (
   `taskid` int(11) NOT NULL,
   `task_name` varchar(255) NOT NULL,
   `task_desc` text DEFAULT NULL,
-  `label` enum('In Progress','For Testing','Reopened','For Checking','For Publish','QA Passed','QA Failed') DEFAULT NULL,
-  `time_est` time DEFAULT '00:00:00',
-  `start_date` date DEFAULT current_timestamp(),
-  `due_date` date DEFAULT current_timestamp(),
+  `label` enum('In Progress','For Testing','Reopened','For Checking','For Publish','QA Passed','QA Failed') NOT NULL,
+  `time_est` int(11) NOT NULL DEFAULT 0,
+  `start_date` date NOT NULL DEFAULT current_timestamp(),
+  `due_date` date NOT NULL DEFAULT current_timestamp(),
   `created_by` int(11) NOT NULL,
   `created_on` date NOT NULL DEFAULT current_timestamp(),
   `projectid` int(11) NOT NULL
@@ -132,13 +133,17 @@ ALTER TABLE `assignee`
 -- Indexes for table `comments`
 --
 ALTER TABLE `comments`
-  ADD PRIMARY KEY (`commentid`);
+  ADD PRIMARY KEY (`commentid`),
+  ADD KEY `com_fk_task` (`taskid`),
+  ADD KEY `com_fk_user` (`userid`);
 
 --
 -- Indexes for table `img`
 --
 ALTER TABLE `img`
-  ADD PRIMARY KEY (`imgid`);
+  ADD PRIMARY KEY (`imgid`),
+  ADD KEY `img_pk_comment` (`commentid`),
+  ADD KEY `img_pk_task` (`taskid`);
 
 --
 -- Indexes for table `projects`
@@ -160,7 +165,7 @@ ALTER TABLE `p_members`
 ALTER TABLE `tasks`
   ADD PRIMARY KEY (`taskid`),
   ADD KEY `created_by` (`created_by`),
-  ADD KEY `projectid` (`projectid`);
+  ADD KEY `tasks_ibfk_1` (`projectid`);
 
 --
 -- Indexes for table `users`
@@ -176,7 +181,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `assignee`
 --
 ALTER TABLE `assignee`
-  MODIFY `assignid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `assignid` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `comments`
@@ -194,25 +199,25 @@ ALTER TABLE `img`
 -- AUTO_INCREMENT for table `projects`
 --
 ALTER TABLE `projects`
-  MODIFY `projectid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `projectid` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `p_members`
 --
 ALTER TABLE `p_members`
-  MODIFY `memberid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `memberid` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tasks`
 --
 ALTER TABLE `tasks`
-  MODIFY `taskid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `taskid` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `userid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `userid` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables
@@ -226,6 +231,20 @@ ALTER TABLE `assignee`
   ADD CONSTRAINT `assignee_fk_user` FOREIGN KEY (`userid`) REFERENCES `users` (`userid`);
 
 --
+-- Constraints for table `comments`
+--
+ALTER TABLE `comments`
+  ADD CONSTRAINT `com_fk_task` FOREIGN KEY (`taskid`) REFERENCES `tasks` (`taskid`) ON DELETE CASCADE,
+  ADD CONSTRAINT `com_fk_user` FOREIGN KEY (`userid`) REFERENCES `users` (`userid`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `img`
+--
+ALTER TABLE `img`
+  ADD CONSTRAINT `img_pk_comment` FOREIGN KEY (`commentid`) REFERENCES `comments` (`commentid`) ON DELETE CASCADE,
+  ADD CONSTRAINT `img_pk_task` FOREIGN KEY (`taskid`) REFERENCES `tasks` (`taskid`) ON DELETE CASCADE;
+
+--
 -- Constraints for table `p_members`
 --
 ALTER TABLE `p_members`
@@ -237,7 +256,7 @@ ALTER TABLE `p_members`
 --
 ALTER TABLE `tasks`
   ADD CONSTRAINT `tasks_fk_1` FOREIGN KEY (`created_by`) REFERENCES `users` (`userid`),
-  ADD CONSTRAINT `tasks_ibfk_1` FOREIGN KEY (`projectid`) REFERENCES `projects` (`projectid`);
+  ADD CONSTRAINT `tasks_ibfk_1` FOREIGN KEY (`projectid`) REFERENCES `projects` (`projectid`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
