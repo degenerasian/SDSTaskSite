@@ -1,35 +1,3 @@
-<?php
-    session_start();
-    //  Check if user is logged in, else redirect to login page
-    if(!isset($_SESSION['userid'])){
-        header('location: ./login.php');
-    }
-    require_once "services/db_config.php";
-    require_once "modules/nav.php";
-    require_once "services/get_tasks.php";
-    get_navbar();
-
-    $projectid = mysqli_escape_string($con, $_GET['projectid']);
-
-    if(!isset($_COOKIE['taskview'])){
-        setcookie('taskview', 'grid', time() + (86400 * 30), '/');   //  view cookie expires in 30 days
-        header('location: project.php?projectid=' . mysqli_escape_string($con, $_GET['projectid']));
-    }
-    
-    // Setting cookie for task view
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        if (isset($_POST['list'])) {
-            setcookie('taskview', 'list', time() + (86400 * 30), '/');
-            header('location: project.php?projectid=' . $projectid);
-        } elseif (isset($_POST['grid'])) {
-            setcookie('taskview', 'grid', time() + (86400 * 30), '/');
-            header('location: project.php?projectid=' . $projectid);
-        }
-    }
-    $viewcookie = $_COOKIE['taskview'];
-    // echo $viewcookie;
-       
-?>
 <!doctype html>
 <html lang="en">
     <head>
@@ -38,10 +6,20 @@
         <base href="/">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     </head>
 
     <!--  PHP code to get project details, associated users, etc.  -->
     <?php
+        //  Check if user is logged in, else redirect to login page
+        session_start();
+        if(!isset($_SESSION['userid'])){
+            header('location: ./login.php');
+        }        
+        require_once "services/db_config.php";
+        require_once "modules/nav.php";
+        require_once "services/get_tasks.php";
+        $projectid = mysqli_escape_string($con, $_GET['projectid']);
         $query = "SELECT projects.project_name
                     FROM projects
                     WHERE projectid = ?";
@@ -53,7 +31,7 @@
         $project = mysqli_fetch_assoc($result);
 
         // echo $project['project_name'];
-        
+        get_navbar(); //get navigation bar
         // create a query to get project and user details
         $query = "SELECT p.*, u.userid, u.f_name, u.l_name, u.email
                     FROM projects p
@@ -94,24 +72,16 @@
     ?>
 
     <body class="bg-body-tertiary">
-        <div class="container-fluid px-5 py-3">
-            <div class="row row-cols-auto">
-                <div class="col mx-4">
-                    <h1><strong><?= $project['project_name'] ?></strong></h1>
-                </div>
-                <div class="col mx-4">
-                    <a class="btn btn-primary align-middle my-2 me-2">Add New Task</a>
-                    <?php if($_SESSION['privilege'] == 'Admin'){ ?>
-                    <button type="button" class="btn btn-warning align-middle my-2 me-2" data-bs-toggle="modal" data-bs-target="#inviteModal">Manage Members</button>
-                    <?php } ?>
-                </div>
-                <div class="col mx-4 ms-auto">
-                    <form method="POST" action="<?= $_SERVER['PHP_SELF'] . '?' . $_SERVER['QUERY_STRING'] ?>">
-                        <button class="btn <?php if($_COOKIE['taskview'] == 'grid'){ ?>border border-primary"<?php } ?> type="submit" name="grid"><img src="img/grid.png"></button>
-                        <button class="btn <?php if($_COOKIE['taskview'] == 'list'){ ?>border border-primary"<?php } ?>" type="submit" name="list"><img src="img/list.png"></button>
-                    </form>
-                </div>
+
+            <div class='mt-4' style='margin-left: 2%'>
+                <h1 class='display-6'><?= $project['project_name'] ?>: Manage Tasks</h1>
+                <a href=""><i class="bi bi-file-plus fs-3"></i></a>
+                &nbsp&nbsp
+                <?php if($_SESSION['privilege'] == 'Admin'){ ?>
+                    <a href="" data-bs-toggle="modal" data-bs-target="#inviteModal"><i class="bi bi-people fs-3"></i></a>
+                <?php } ?>
             </div>
+            <br>
         <?php get_tasks($con, $projectid);?>
 
 
@@ -181,7 +151,7 @@
                 </div>
             </div>
         </div>
-
+    <!--    END Invite Modal    -->
     
     </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>

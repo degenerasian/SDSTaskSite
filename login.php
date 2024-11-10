@@ -1,46 +1,35 @@
 <!DOCTYPE html>
 <html lang="en-US">
 <head>
-    <title>Login | SDS Task Site</title>
+    <title>Sign In | SDS Task Site</title>
     <link rel="shortcut icon" type="image/png" href="img/favicon.png"><!-- Favicon|image in web browser -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
 </head>
 <?php
 session_start();
-if(isset($_SESSION['userid'])){
-    header('location: ./index.php');
-}
 ?>
-<body class="bg-body-tertiary">
-<div class="container">
-    <div class="row px-auto mx-3 mt-5">
-        <center><img src="img/logo w label.png" style="height:100px"></center>
-        <div class="col mt-4 bg-white border rounded shadow-lg ">
-            <h3 class="m-3">Log In</h3>
-            <form method="POST" action="services/login.php">
-            <div class="row align-items-center">
-                <div class="mb-3 col-2"></div>
-                <div class="mb-3 col-8">
-                    <label for="email" class="form-label">Email</label>
-                    <input type="text" class="form-control" id="email" placeholder="Email" name="email" required>
-                </div>
-                <div class="mb-3 col-2"></div>
-            </div>
-            <div class="row align-items-center">
-                <div class="mb-3 col-2"></div>
-                <div class="mb-3 col-8">
-                    <label for="password" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="password" placeholder="Password" name="password" required>
-                </div>
-                <div class="mb-3 col-2"></div>
-            </div>
-                <div class="mb-4 col-auto" style="text-align:center;">
-                    <button type="submit" name='submit' class="btn btn-info w-auto">Login</button>
-                </div>
-            </form>
-        </div>
+<body style='background-color: #f7f7f7'>
+   
+<form method="POST" action="services/login.php">
+<div class="container shadow position-absolute top-50 start-50 translate-middle" style='width: 22%'>
+    <center><img src='img/sdheader.jpg' class='w-100 mt-3'></center>
+
+    <br><h4 style='text-align: center'>Sign In</h4>
+
+    <div data-mdb-input-init class="form-outline mt-4 mx-3">
+        <input type="email" id="form3Example3" class="form-control form-control-lg" id="email" name="email" placeholder="Email Address" required/>
+    </div>
+            
+    <div data-mdb-input-init class="form-outline mt-4 mx-3">
+        <input type="password" id="form3Example3" class="form-control form-control-lg" id="password" name="password" placeholder="Password"  required/>
+    </div>
+
+    <div class="row align-items-center mt-5 mb-5 mx-5">
+        <center><button type="submit" name='submit' class="btn btn-outline-secondary w-75" style='height:3em'>Sign In</button></center>
     </div>
 </div>
+</form>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
 </body>
 </html>
