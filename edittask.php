@@ -118,9 +118,7 @@
                 <div class="col-auto mt-4 align-self-center">
                     <button class="btn" type="button" data-bs-toggle="dropdown" aria-expanded="false"><img src="img/ellipsis.png"></button>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="edittask.php?taskid=<?= $taskid?>">Edit Task</a></li>
                         <li><a class="dropdown-item" href="#">Duplicate Task</a></li>
-                        <hr>
                         <li><button class="dropdown-item text-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete Task</a></li>
                     </ul>
                 </div>
@@ -145,55 +143,8 @@
                                         <img src="uploads/<?= $ti['image']?>">
                                     </div>
                                 <?php } ?>
-                                </div>
-                            <?php } ?>
-                        </div>
-                    <div class="col shadow rounded bg-white mb-4 p-4">
-                        <h4>Comments</h4>
-                        <form method="POST" action="services/comment.php?taskid=<?= $taskid?>" enctype="multipart/form-data">
-                        <div class="mb-3">
-                            <textarea class="form-control" id="commentbody" name="commentbody" rows="5" style="resize:none;"></textarea>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-12 mb-3">
-                                <label for="attachment" class="form-label">Attachments</label>
-                                <input class="form-control" type="file" id="attachment" name="attachment[]" multiple>
-                            </div> 
-                            <div class="col-12 mb-2">
-                                <button type="submit" name="comment" class="btn btn-success float-end">Comment</input>
-                            </div> 
-                        </div>
-                        </form>
-                        <?php if($comments) { ?>
-                        <div class="row row-cols-1">
-                            <?php foreach ($comments as $c) { 
-                                $comment_img = array();
-                                $comment_img = get_images($con, 'comment', $c['commentid']);
-                                ?>
-                            <div class="col shadow rounded bg-white mb-4 px-4 pt-4">
-                                <div class="row">
-                                    <div class="col">    
-                                        <p><?= $c['f_name'] . " " . $c['l_name']?></p>
-                                    </div>
-                                    <div class="col">    
-                                        
-                                    </div>
-                                </div>
-                                <hr>   
-                                <p><?= $c['comment_text']?></p>
-                                <?php if($comment_img) {?>
-                                    <div class="row">
-                                    <?php foreach ($comment_img as $i) { ?>
-                                        <div class="col-12 py-2">
-                                            <img src="uploads/<?= $i['image']?>" class="img-fluid" style="max-width:450px;">
-                                        </div>
-                                    <?php } ?>
-                                    </div>
-                                <?php } ?>
                             </div>
                             <?php } ?>
-                        </div>
-                        <?php } ?>
                     </div>
                 </div>
                 <div class="col-12 col-lg-4 col-xl-3 px-4 mb-4 py-3 bg-white shadow rounded">
@@ -215,11 +166,11 @@
                     <?php } ?>
                     <button type="button" class="btn btn-warning align-middle" data-bs-toggle="modal" data-bs-target="#inviteModal">Manage</button>
                     <hr>
-                    <form method="POST" action="services/edittask.php?taskid=<?= $taskid?>">
+                    <form>
                     <div class="row my-3">
                         <h5>Label</h5>
                         <div class="col py-2">
-                            <select class="form-select" name="label" id="label" aria-label="Default select example">  
+                            <select class="form-select" aria-label="Default select example">  
                                 <option selected disabled>Select label</option>
                                 <option value="In Progress"<?=$task['label'] == 'In Progress' ? ' selected="selected"' : '';?>>In Progress</option>
                                 <option value="For Testing"<?=$task['label'] == 'For Testing' ? ' selected="selected"' : '';?>>For Testing</option>
@@ -234,26 +185,26 @@
                     <div class="row my-3">
                         <h5>Due Date</h5>
                         <div class="col py-2">
-                            <label for="start_date">Start</label>
-                            <input id="start_date" name="start_date" class="form-control" type="date" value="<?= $task['start_date']?>">
+                            <label for="startDate">Start</label>
+                            <input id="startDate" class="form-control" type="date">
                         </div>
                         <div class="col py-2">
-                            <label for="due_date">End</label>
-                            <input id="due_date" name="due_date" class="form-control" type="date" value="<?= $task['due_date']?>">
+                            <label for="startDate">End</label>
+                            <input id="startDate" class="form-control" type="date">
                         </div>
                     </div>
                     <div class="row">
                         <h5>Time Estimation</h5>
                         <div class="col py-2">
                             <label for="hours">Hours</label>
-                            <input class="form-control" type="number" name="hours" id="hours" min="0" value="<?= intdiv($task['time_est'], 60)?>">
+                            <input class="form-control" type="number" name="hours" id="hours" min="0" value="00">
                         </div>
                         <div class="col py-2">
                             <label for="minutes">Minutes</label>
-                            <input class="form-control" type="number" name="minutes" id="minutes" min="0" max="60" value="<?= $task['time_est']%60?>">
+                            <input class="form-control" type="number" name="minutes" id="minutes" min="0" max="60" value="00">
                         </div>
                     </div>
-                    <button type="submit" name="detailedit" class="btn btn-success align-middle my-2">Save Changes</button>
+                    <button type="button" class="btn btn-success align-middle my-2">Save Changes</button>
                     </form>
                 </div>
             </div>
@@ -280,6 +231,7 @@
                 </div>
             </div>
         </div>
+
 
         <!--    Remove Modal    -->
         <div class="modal fade" id="removeModal" tabindex="-1" aria-labelledby="removeModalLabel" aria-hidden="true">

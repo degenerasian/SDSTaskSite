@@ -9,9 +9,18 @@ if(isset($_POST['removedata'])) {
                 WHERE userid = ?
                 AND taskid = ?";
 
-    $stmt = $con->prepare($query);
-    $stmt->bind_param('ii', $userid, $taskid);
-    $stmt->execute();
+    try{    
+        $con->begin_transaction();
+            
+        $stmt = $con->prepare($query);
+        $stmt->bind_param('ii', $userid, $taskid);
+        $stmt->execute();
+
+        $con->commit();
+    } catch (/Throwable $e) {
+        $con->rollback();
+        throw $e;
+    }
 
     header('location: ../task.php?taskid=' . $taskid);
 
