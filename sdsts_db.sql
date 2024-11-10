@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 06, 2024 at 01:15 PM
+-- Generation Time: Nov 10, 2024 at 05:47 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -57,6 +57,17 @@ CREATE TABLE `comments` (
   `taskid` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `comments`
+--
+
+INSERT INTO `comments` (`commentid`, `comment_text`, `userid`, `taskid`) VALUES
+(1, 'comments', 2, 6),
+(3, 'asdasdasdasdasd\\r\\nasdasdasdasdasd\\r\\n\\r\\nasdasdasdasdasd', 2, 1),
+(5, 'orem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 2, 1),
+(6, 'orem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 2, 1),
+(7, 'orem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 2, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -69,6 +80,14 @@ CREATE TABLE `img` (
   `taskid` int(11) DEFAULT NULL,
   `commentid` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `img`
+--
+
+INSERT INTO `img` (`imgid`, `image`, `taskid`, `commentid`) VALUES
+(1, 'IMG-672c60506e4f44.67032210.jpg', NULL, 1),
+(3, 'IMG-67307add8845e2.57515310.png', NULL, 5);
 
 -- --------------------------------------------------------
 
@@ -123,7 +142,7 @@ CREATE TABLE `tasks` (
   `task_name` varchar(255) NOT NULL,
   `task_desc` text DEFAULT NULL,
   `label` enum('In Progress','For Testing','Reopened','For Checking','For Publish','QA Passed','QA Failed') NOT NULL,
-  `time_est` time NOT NULL DEFAULT '00:00:00',
+  `time_est` int(11) NOT NULL DEFAULT 0,
   `start_date` date NOT NULL DEFAULT current_timestamp(),
   `due_date` date NOT NULL DEFAULT current_timestamp(),
   `created_by` int(11) NOT NULL,
@@ -136,21 +155,21 @@ CREATE TABLE `tasks` (
 --
 
 INSERT INTO `tasks` (`taskid`, `task_name`, `task_desc`, `label`, `time_est`, `start_date`, `due_date`, `created_by`, `created_on`, `projectid`) VALUES
-(1, 'Task 1', 'Task 1 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 'In Progress', '00:00:00', '2024-11-01', '2024-12-11', 2, '2024-11-05', 2),
-(2, 'Task 2', 'Task 2 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 'In Progress', '00:00:00', '2024-11-06', '2024-11-15', 2, '2024-11-05', 2),
-(3, 'Task 3', 'Task 3 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 'In Progress', '00:00:00', '2024-11-06', '2024-11-12', 2, '2024-11-05', 2),
-(4, 'Task 4', 'Task 4 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 'In Progress', '00:00:00', '2024-11-06', '2024-11-10', 2, '2024-11-05', 2),
-(5, 'Task 5', 'Task 5 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 'In Progress', '00:00:00', '2024-11-06', '2024-11-13', 2, '2024-11-05', 2),
-(6, 'Task 1', 'Task 1 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 'In Progress', '00:00:00', '2024-11-06', '2024-11-30', 2, '2024-11-05', 1),
-(7, 'Task 2', 'Task 2 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 'In Progress', '00:00:00', '2024-11-06', '2024-11-30', 2, '2024-11-05', 1),
-(8, 'Task 3', 'Task 3 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 'In Progress', '00:00:00', '2024-11-06', '2024-11-30', 2, '2024-11-05', 1),
-(9, 'Task 4', 'Task 4 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 'In Progress', '00:00:00', '2024-11-06', '2024-11-30', 2, '2024-11-05', 1),
-(10, 'Task 5', 'Task 5 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 'In Progress', '00:00:00', '2024-11-06', '2024-11-30', 2, '2024-11-05', 1),
-(13, 'Task 6', 'Task 6 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 'For Testing', '00:00:00', '2024-11-06', '2024-11-30', 2, '2024-11-05', 1),
-(14, 'Task 7', 'Task 7 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 'For Testing', '00:00:00', '2024-11-06', '2024-11-30', 1, '2024-11-05', 1),
-(15, 'Task 8', 'Task 8 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 'For Publish', '00:00:00', '2024-11-06', '2024-11-30', 1, '2024-11-05', 1),
-(16, 'Task 9', 'Task 9 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 'For Publish', '00:00:00', '2024-11-06', '2024-11-30', 1, '2024-11-05', 1),
-(17, 'Task 10', 'Task 10 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 'For Publish', '00:00:00', '2024-11-01', '2024-11-30', 1, '2024-11-05', 1);
+(1, 'Task 1', 'Task 1 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 'In Progress', 0, '2024-11-01', '2024-12-11', 2, '2024-11-05', 2),
+(2, 'Task 2', 'Task 2 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 'In Progress', 0, '2024-11-06', '2024-11-15', 2, '2024-11-05', 2),
+(3, 'Task 3', 'Task 3 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 'In Progress', 0, '2024-11-06', '2024-11-12', 2, '2024-11-05', 2),
+(4, 'Task 4', 'Task 4 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 'In Progress', 0, '2024-11-06', '2024-11-10', 2, '2024-11-05', 2),
+(5, 'Task 5', 'Task 5 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 'In Progress', 0, '2024-11-06', '2024-11-13', 2, '2024-11-05', 2),
+(6, 'Task 1', 'Task 1 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 'In Progress', 0, '2024-11-06', '2024-11-30', 2, '2024-11-05', 1),
+(7, 'Task 2', 'Task 2 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 'In Progress', 0, '2024-11-06', '2024-11-30', 2, '2024-11-05', 1),
+(8, 'Task 3', 'Task 3 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 'In Progress', 0, '2024-11-06', '2024-11-30', 2, '2024-11-05', 1),
+(9, 'Task 4', 'Task 4 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 'In Progress', 0, '2024-11-06', '2024-11-30', 2, '2024-11-05', 1),
+(10, 'Task 5', 'Task 5 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 'QA Passed', 0, '2024-11-06', '2024-11-30', 2, '2024-11-05', 1),
+(13, 'Task 6', 'Task 6 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 'In Progress', 21, '2024-11-06', '2024-11-30', 2, '2024-11-05', 1),
+(14, 'Task 7', 'Task 7 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 'For Testing', 0, '2024-11-06', '2024-11-30', 1, '2024-11-05', 1),
+(15, 'Task 8', 'Task 8 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 'For Publish', 0, '2024-11-06', '2024-11-30', 1, '2024-11-05', 1),
+(16, 'Task 9', 'Task 9 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 'For Publish', 0, '2024-11-06', '2024-11-30', 1, '2024-11-05', 1),
+(17, 'Task 10', 'Task 10 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 'For Publish', 0, '2024-11-01', '2024-11-30', 1, '2024-11-05', 1);
 
 -- --------------------------------------------------------
 
@@ -176,9 +195,7 @@ INSERT INTO `users` (`userid`, `f_name`, `l_name`, `email`, `password`, `privile
 (2, 'Cedric', 'Ty (Admin)', 'cedricadmin@sds.com', 'admin123', 'Admin'),
 (7, 'User1', 'One', 'user1@sds.com', '123456', 'Admin'),
 (8, 'User2', 'Two', 'user2@sds.com', '123456', 'Admin'),
-(9, 'User3', 'Three', 'user3@sds.com', '123456', 'User'),
-(10, 'User4', 'Four', 'user4@sds.com', '123456', 'User'),
-(11, 'User5', 'Five', 'user5@sds.com', '123456', 'User');
+(9, 'User3', 'Three', 'user3@sds.com', '123456', 'User');
 
 --
 -- Indexes for dumped tables
@@ -205,8 +222,8 @@ ALTER TABLE `comments`
 --
 ALTER TABLE `img`
   ADD PRIMARY KEY (`imgid`),
-  ADD KEY `img_pk_task` (`taskid`),
-  ADD KEY `img_fk_comments` (`commentid`);
+  ADD KEY `img_pk_comment` (`commentid`),
+  ADD KEY `img_pk_task` (`taskid`);
 
 --
 -- Indexes for table `projects`
@@ -228,7 +245,7 @@ ALTER TABLE `p_members`
 ALTER TABLE `tasks`
   ADD PRIMARY KEY (`taskid`),
   ADD KEY `created_by` (`created_by`),
-  ADD KEY `projectid` (`projectid`);
+  ADD KEY `tasks_ibfk_1` (`projectid`);
 
 --
 -- Indexes for table `users`
@@ -244,19 +261,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `assignee`
 --
 ALTER TABLE `assignee`
-  MODIFY `assignid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `assignid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `commentid` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `commentid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `img`
 --
 ALTER TABLE `img`
-  MODIFY `imgid` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `imgid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `projects`
@@ -297,16 +314,15 @@ ALTER TABLE `assignee`
 -- Constraints for table `comments`
 --
 ALTER TABLE `comments`
-  ADD CONSTRAINT `com_fk_task` FOREIGN KEY (`taskid`) REFERENCES `tasks` (`taskid`),
-  ADD CONSTRAINT `com_fk_user` FOREIGN KEY (`userid`) REFERENCES `users` (`userid`);
+  ADD CONSTRAINT `com_fk_task` FOREIGN KEY (`taskid`) REFERENCES `tasks` (`taskid`) ON DELETE CASCADE,
+  ADD CONSTRAINT `com_fk_user` FOREIGN KEY (`userid`) REFERENCES `users` (`userid`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `img`
 --
 ALTER TABLE `img`
-  ADD CONSTRAINT `img_fk_comments` FOREIGN KEY (`commentid`) REFERENCES `comments` (`commentid`),
-  ADD CONSTRAINT `img_pk_comment` FOREIGN KEY (`commentid`) REFERENCES `comments` (`commentid`),
-  ADD CONSTRAINT `img_pk_task` FOREIGN KEY (`taskid`) REFERENCES `tasks` (`taskid`);
+  ADD CONSTRAINT `img_pk_comment` FOREIGN KEY (`commentid`) REFERENCES `comments` (`commentid`) ON DELETE CASCADE,
+  ADD CONSTRAINT `img_pk_task` FOREIGN KEY (`taskid`) REFERENCES `tasks` (`taskid`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `p_members`
@@ -320,7 +336,7 @@ ALTER TABLE `p_members`
 --
 ALTER TABLE `tasks`
   ADD CONSTRAINT `tasks_fk_1` FOREIGN KEY (`created_by`) REFERENCES `users` (`userid`),
-  ADD CONSTRAINT `tasks_ibfk_1` FOREIGN KEY (`projectid`) REFERENCES `projects` (`projectid`);
+  ADD CONSTRAINT `tasks_ibfk_1` FOREIGN KEY (`projectid`) REFERENCES `projects` (`projectid`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
