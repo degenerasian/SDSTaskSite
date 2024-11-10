@@ -3,46 +3,40 @@
     function get_tasks($con, $proj_id) { 
 ?>
     <div class="container-fluid">
+        <div class="row row-cols-auto px-2 pb-1 mx-auto">
             
 <?php 
     $labels = array('In Progress', 'For Testing', 'For Publish', 'For Checking', 'Reopened', 'QA Passed', 'QA Failed');
-    if($_COOKIE['taskview'] == "grid"){ ?>
-        <div class="row row-cols-auto px-2 pb-1 mx-auto">
-<?php
-        foreach ($labels as $label) { 
+    foreach ($labels as $label) { 
 ?>
-            <div class="col align-items-start my-3" style="width:15rem;">
+            <div class="col hstack align-items-start my-3" style="width:15rem;">
                 <div class="row row-cols-1">
                     <div class="col">
                         <h5><strong><?= $label?></strong></h5>
                     </div>
 <?php
-            $query = "SELECT * 
-                        FROM tasks 
-                        WHERE label = ?
-                        AND tasks.projectid = ?";
-            
-                $stmt = $con->prepare($query);
-                $stmt->bind_param('si', $label, $proj_id);
-                $stmt->execute();
-                $results = $stmt->get_result();
-                $requests = array();
+        $query = "SELECT * 
+                    FROM tasks 
+                    WHERE label = ?
+                    AND tasks.projectid = ?";
+        
+        $stmt = $con->prepare($query);
+        $stmt->bind_param('si', $label, $proj_id);
+        $stmt->execute();
+        $results = $stmt->get_result();
+        $requests = array();
 
-            while ($row = mysqli_fetch_assoc($results)) {
-                $requests[] = $row;
-            }
-            $requests = array_map(fn($v) => $v === '' ? null : $v, $requests);
-            if($requests) {
-                foreach ($requests as $request) {
+        while ($row = mysqli_fetch_assoc($results)) {
+            $requests[] = $row;
+        }
+        $requests = array_map(fn($v) => $v === '' ? null : $v, $requests);
+        if($requests) {
+            foreach ($requests as $request) {
 ?>
-                    <div class="col ">
-                        <a class="link-underline link-underline-opacity-0" href="task.php?taskid=<?= $request['taskid'];?>">
-                        <div class="card shadow my-1" style="width:13.5rem;">
-                            <div class="row row-cols-2">
-                                <div class="col-auto">
-                                    <p class="card-title px-3 py-2 text-black"><?= $request['task_name'];?></p>
-                                </div>
-                            </div>
+                    <div class="col">
+                        <a class="link-underline link-underline-opacity-0" href="SDSTaskSite-main/task.php?taskid=<?= $request['taskid'];?>">
+                        <div class="card shadow my-1" style="width:13.5rem; border: none">
+                            <h6 class="card-title px-3 py-2"><?= $request['task_name'];?></h6>
                             <div class="card-footer">
                                 <p class="card-subtitle text-secondary">
                                     <?php 
@@ -64,58 +58,10 @@
                         </div>
                         </a>
                     </div>
-<?php           }
-            } else { ?><p>No tasks yet.</p><?php } ?>
+<?php }} else { ?><p>No tasks yet. <?php } ?>
                 </div>
             </div>
 <?php    
-        }
-?>
-        </div>
-<?php
-    }   //  if grid end
-    if($_COOKIE['taskview'] == "list"){ ?>
-        <div class="row row-cols-1">
-<?php foreach ($labels as $label) { ?>
-            <div class="col-12 py-3">
-                <h5><strong><?= $label?></strong></h5>
-            </div>
-        <?php
-            $query = "SELECT * 
-                        FROM tasks 
-                        WHERE label = ?
-                        AND tasks.projectid = ?";
-            
-                $stmt = $con->prepare($query);
-                $stmt->bind_param('si', $label, $proj_id);
-                $stmt->execute();
-                $results = $stmt->get_result();
-                $requests = array();
-
-                while ($row = mysqli_fetch_assoc($results)) {
-                    $requests[] = $row;
-                }
-            $requests = array_map(fn($v) => $v === '' ? null : $v, $requests);
-            if($requests) {
-                foreach ($requests as $request) {
-        ?>
-            <a class="link-underline link-underline-opacity-0 m-0 p-0" href="task.php?taskid=<?= $request['taskid'];?>">
-                <div class="col-12 mx-2 mt-1 py-2 px-4 rounded bg-white text-black border shadow">
-                    <div class="row">
-                        <div class="col-auto pe-4">
-                            <h5><?= $request['task_name']?></h5>
-                        </div>
-                        <div class="col-auto">
-                            <h6 class="text-body-tertiary">Due on <?= $request['due_date']?></h6>
-                        </div>
-                    </div>
-                </div> 
-            </a>
-<?php           }
-            } else { ?><p>No tasks yet.</p><?php } ?>
-<?php   } ?>
-        </div>
-<?php
-        }
-}   // func end
+    }
     ?>
+<?php }
