@@ -40,14 +40,13 @@
     </head>
 
     <body> 
-        <div class='container-fluid'>
-            <br>
+        <div class='container-fluid p-3'>
             <h1 class='display-6'>Projects</h1>
             <hr>
             <div class="row row-cols-auto">
                 <?php foreach($requests as $request) { ?>
                 <div class="col py-2 pe-3">
-                    <a class="link-underline link-underline-opacity-0" href="SDSTaskSite-main/project.php?projectid=<?= $request['projectid'];?>">
+                    <a class="link-underline link-underline-opacity-0" href="project.php?projectid=<?= $request['projectid'];?>">
                         <div class="card shadow mb-5" style="width: 20rem; height: 20rem; border: none">
                             <div class="card-body">
                                 <h5><?= $request['project_name'];?></h5>
