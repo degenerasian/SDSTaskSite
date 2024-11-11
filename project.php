@@ -108,7 +108,7 @@
                     <h1 class='display-6 pb-2'><?= $project['project_name'] ?>: Manage Tasks</h1>
                     <div class="row">
                         <div class="col-auto">
-                            <a href="addproject.php"><i class="bi bi-file-plus fs-3"></i></a>
+                            <a href="" data-bs-toggle="modal" data-bs-target="#newtaskModal"><i class="bi bi-file-plus fs-3"></i></a>
                         </div>
                         <div class="col-auto">
                             <?php if($_SESSION['privilege'] == 'Admin'){ ?>
@@ -120,8 +120,12 @@
                 <div class="col p-3">
                     <form method="POST" action="<?= $_SERVER['PHP_SELF'] . '?' . $_SERVER['QUERY_STRING'] ?>">
                         <button class="btn <?php if($_COOKIE['taskview'] == 'grid'){ ?>border border-primary"<?php } ?> type="submit" name="grid"><img src="img/grid.png"></button>
-                        <button class="btn <?php if($_COOKIE['taskview'] == 'list'){ ?>border border-primary"<?php } ?>" type="submit" name="list"><img src="img/list.png"></button>
+                        <button class="btn <?php if($_COOKIE['taskview'] == 'list'){ ?>border border-primary"<?php } ?> type="submit" name="list"><img src="img/list.png"></button>
                     </form>
+                </div>
+                <!-- CHANGE THIS BUTTON FRONTEND, TEMPORARY FOR PROJECT DELETE -->
+                <div class="col p-3">
+                    <a class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete Project</a>
                 </div>
             
             <br>
@@ -195,6 +199,117 @@
             </div>
         </div>
     <!--    END Invite Modal    -->
+
+    <!--    New Task Modal    -->
+    <div class="modal fade" id="newtaskModal" tabindex="-1" aria-labelledby="newtaskModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="newtaskModalLabel">New Task</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="services/addtask.php?projectid=<?= $projectid?>" enctype="multipart/form-data">
+                    <div class="col py-1">
+                        <label for="task_name" class="form-label">Task Name</label>
+                        <input type="text" class="form-control" name="task_name" id="task_name" placeholder="New Task">
+                    </div>
+                    <div class="col py-1">
+                        <label for="task_desc" class="form-label">Description</label>
+                        <textarea class="form-control" rows="5" name="task_desc" id="task_desc" placeholder="A brief task description" style="resize:none;"></textarea>
+                    </div>
+                        <label for="attachment" class="form-label">Attachments</label>
+                        <input class="form-control" type="file" id="attachment" name="attachment[]" multiple>
+                    <hr>
+                    <h6>Label</h6>
+                    <div class="col py-2">
+                        <select class="form-select" name="label" id="label" aria-label="Default select example">  
+                            <option disabled>Select label</option>
+                            <option value="In Progress">In Progress</option>
+                            <option value="For Testing">For Testing</option>
+                            <option value="For Publish">For Publish</option>
+                            <option value="For Checking">For Checking</option>
+                            <option value="Reopened">Reopened</option>
+                            <option value="QA Passed">QA Passed</option>
+                            <option value="QA Failed">QA Failed</option>
+                        </select>
+                    </div>
+                    <div class="row my-3">
+                        <h5>Due Date</h5>
+                        <div class="col py-2">
+                            <label for="start_date">Start</label>
+                            <input id="start_date" name="start_date" class="form-control" type="date" value="">
+                        </div>
+                        <div class="col py-2">
+                            <label for="due_date">End</label>
+                            <input id="due_date" name="due_date" class="form-control" type="date" value="">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <h5>Time Estimation</h5>
+                        <div class="col py-2">
+                            <label for="hours">Hours</label>
+                            <input class="form-control" type="number" name="hours" id="hours" min="0" value="">
+                        </div>
+                        <div class="col py-2">
+                            <label for="minutes">Minutes</label>
+                            <input class="form-control" type="number" name="minutes" id="minutes" min="0" max="60" value="">
+                        </div>
+                    </div>
+                    <hr>
+                    <h5>Add to New Task</h5>
+                    <table class="table table-hover table-borderless">
+                        <colgroup>
+                        <col style="width:1%;">
+                        <col>
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Add</th>
+                                <th>Name</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <?php
+                            foreach ($members as $m) { ?>
+                            <tr>
+                                <td><input type="checkbox" name="addid[]" value="<?= $m['userid']?>"></td>
+                                <td><?= $m['f_name'] . " " . $m['l_name'];?></td>
+                            </tr>
+                            <?php } ?>
+                        </tbody>
+                    </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-success" name="addtask">Save Changes</input>
+                </form>
+            </div>
+            </div>
+        </div>
+    </div>
+    <!--    END New Task Modal    -->
+
+    <!--    Delete Project    -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="deleteModalLabel">Delete <?= $project['project_name']?>?</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cancel"></button>
+            </div>
+            <form action="services/deleteproject.php?projectid=<?= $projectid;?>" method="POST">
+            <div class="modal-body">
+                <input type="hidden" name="delete_id" id="delete_id">
+                This can't be undone.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="submit" name="delete" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+            </div>
+        </div>
+    </div>
     
     </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>

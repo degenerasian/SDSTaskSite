@@ -10,8 +10,9 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     </head>
 
-    <!--  PHP code to get project details, associated users, etc.  -->
+
     <?php
+        //  PHP code to get project details, associated users, etc.
         //  Check if user is logged in, else redirect to login page
         session_start();
         if(!isset($_SESSION['userid'])){
@@ -29,6 +30,17 @@
                     WHERE tasks.taskid = ?
                     AND users.userid = tasks.created_by";
             
+            $stmt = $con->prepare($query);
+            $stmt->bind_param('i', $taskid);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $create = mysqli_fetch_assoc($result);
+
+        
+        $query = "SELECT tasks.*
+                FROM tasks
+                WHERE tasks.taskid = ?";
+        
             $stmt = $con->prepare($query);
             $stmt->bind_param('i', $taskid);
             $stmt->execute();
@@ -119,7 +131,7 @@
                     <button class="btn" type="button" data-bs-toggle="dropdown" aria-expanded="false"><img src="img/ellipsis.png"></button>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="edittask.php?taskid=<?= $taskid?>">Edit Task</a></li>
-                        <li><a class="dropdown-item" href="#">Duplicate Task</a></li>
+                        <li><a class="dropdown-item" href="services/duplicatetask.php?taskid=<?= $taskid?>">Duplicate Task</a></li>
                         <hr>
                         <li><button class="dropdown-item text-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete Task</a></li>
                     </ul>
@@ -127,7 +139,9 @@
             </div>
             <div class="row">
                 <div class="col-auto">
-                    <p>Created by <?= $task['f_name'] . " " . $task['l_name'];?> on <?= $created_on?></p>
+                    <?php if(!is_null($create)) { ?>
+                        <p>Created by <?= $create['f_name'] . " " . $create['l_name'];?> on <?= $created_on?></p>
+                    <?php } else { ?> <p>Created by a Deleted User on <?= $created_on?></p><?php } ?>
                 </div>
             </div>
             <div class="row">
@@ -175,12 +189,12 @@
                                     <div class="col">    
                                         <p><?= $c['f_name'] . " " . $c['l_name']?></p>
                                     </div>
-                                    <div class="col">    
-                                        
+                                    <div class="col-auto ms-auto">    
+                                        <a class="btn" href="services/deletecomment.php?commentid=<?= $c['commentid'];?>&taskid=<?= $taskid?>"><img src="img/trash.png"></a>
                                     </div>
                                 </div>
                                 <hr>   
-                                <p><?= $c['comment_text']?></p>
+                                <p><?= nl2br(stripcslashes($c['comment_text']))?></p>
                                 <?php if($comment_img) {?>
                                     <div class="row">
                                     <?php foreach ($comment_img as $i) { ?>
@@ -267,14 +281,14 @@
                     <h1 class="modal-title fs-5" id="deleteModalLabel">Delete this task?</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cancel"></button>
                 </div>
-                <form action="services/deletetask.php?taskid=<?= $taskid?>" method="POST">
+                <form action="services/deletetask.php?taskid=<?= $taskid?>&projectid=<?= $task['projectid'];?>" method="POST">
                 <div class="modal-body">
                     <input type="hidden" name="delete_id" id="delete_id">
                     This can't be undone.
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" name="removedata" class="btn btn-danger">Remove</button>
+                    <button type="submit" name="delete" class="btn btn-danger">Delete</button>
                     </form>
                 </div>
                 </div>

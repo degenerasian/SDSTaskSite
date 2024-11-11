@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 10, 2024 at 05:49 PM
+-- Generation Time: Nov 11, 2024 at 10:03 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -97,7 +97,7 @@ CREATE TABLE `tasks` (
   `time_est` int(11) NOT NULL DEFAULT 0,
   `start_date` date NOT NULL DEFAULT current_timestamp(),
   `due_date` date NOT NULL DEFAULT current_timestamp(),
-  `created_by` int(11) NOT NULL,
+  `created_by` int(11) DEFAULT NULL,
   `created_on` date NOT NULL DEFAULT current_timestamp(),
   `projectid` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -126,8 +126,8 @@ CREATE TABLE `users` (
 --
 ALTER TABLE `assignee`
   ADD PRIMARY KEY (`assignid`),
-  ADD KEY `assignee_fk_user` (`userid`),
-  ADD KEY `assignee_fk_task` (`taskid`);
+  ADD KEY `assignee_fk_task` (`taskid`),
+  ADD KEY `assignee_fk_user` (`userid`);
 
 --
 -- Indexes for table `comments`
@@ -156,15 +156,15 @@ ALTER TABLE `projects`
 --
 ALTER TABLE `p_members`
   ADD PRIMARY KEY (`memberid`),
-  ADD KEY `pmem_fk_user` (`userid`),
-  ADD KEY `pmem_fk_project` (`projectid`);
+  ADD KEY `pmem_fk_project` (`projectid`),
+  ADD KEY `pmem_fk_user` (`userid`);
 
 --
 -- Indexes for table `tasks`
 --
 ALTER TABLE `tasks`
   ADD PRIMARY KEY (`taskid`),
-  ADD KEY `created_by` (`created_by`),
+  ADD KEY `created_by` (`created_by`) USING BTREE,
   ADD KEY `tasks_ibfk_1` (`projectid`);
 
 --
@@ -227,8 +227,8 @@ ALTER TABLE `users`
 -- Constraints for table `assignee`
 --
 ALTER TABLE `assignee`
-  ADD CONSTRAINT `assignee_fk_task` FOREIGN KEY (`taskid`) REFERENCES `tasks` (`taskid`),
-  ADD CONSTRAINT `assignee_fk_user` FOREIGN KEY (`userid`) REFERENCES `users` (`userid`);
+  ADD CONSTRAINT `assignee_fk_task` FOREIGN KEY (`taskid`) REFERENCES `tasks` (`taskid`) ON DELETE CASCADE,
+  ADD CONSTRAINT `assignee_fk_user` FOREIGN KEY (`userid`) REFERENCES `users` (`userid`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `comments`
@@ -248,14 +248,14 @@ ALTER TABLE `img`
 -- Constraints for table `p_members`
 --
 ALTER TABLE `p_members`
-  ADD CONSTRAINT `pmem_fk_project` FOREIGN KEY (`projectid`) REFERENCES `projects` (`projectid`),
-  ADD CONSTRAINT `pmem_fk_user` FOREIGN KEY (`userid`) REFERENCES `users` (`userid`);
+  ADD CONSTRAINT `pmem_fk_project` FOREIGN KEY (`projectid`) REFERENCES `projects` (`projectid`) ON DELETE CASCADE,
+  ADD CONSTRAINT `pmem_fk_user` FOREIGN KEY (`userid`) REFERENCES `users` (`userid`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `tasks`
 --
 ALTER TABLE `tasks`
-  ADD CONSTRAINT `tasks_fk_1` FOREIGN KEY (`created_by`) REFERENCES `users` (`userid`),
+  ADD CONSTRAINT `tasks_fk_1` FOREIGN KEY (`created_by`) REFERENCES `users` (`userid`) ON DELETE SET NULL,
   ADD CONSTRAINT `tasks_ibfk_1` FOREIGN KEY (`projectid`) REFERENCES `projects` (`projectid`) ON DELETE CASCADE;
 COMMIT;
 

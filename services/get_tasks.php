@@ -20,7 +20,8 @@
         $query = "SELECT * 
                     FROM tasks 
                     WHERE label = ?
-                    AND tasks.projectid = ?";
+                    AND tasks.projectid = ?
+                    ORDER BY due_date";
         
         $stmt = $con->prepare($query);
         $stmt->bind_param('si', $label, $proj_id);
@@ -40,7 +41,7 @@
                         <div class="card shadow my-1" style="width:13.5rem; border: none">
                             <h6 class="card-title px-3 py-2"><?= $request['task_name'];?></h6>
                             <div class="card-footer">
-                                <p class="card-subtitle text-secondary">
+                                <p class="card-subtitle text-secondary p-1">
                                     <?php 
                                     //  really stupid way of getting first assignee name in card footer
                                         $query = "SELECT u.userid, u.f_name, u.l_name
@@ -52,10 +53,11 @@
                                         $taskresult = mysqli_query($con, $query);
                                         $task = mysqli_fetch_assoc($taskresult);
                                         if (!is_null($task)){
-                                            echo $task['f_name'] . $task['l_name'];
+                                            echo $task['f_name'] . " " . $task['l_name'];
                                         } else echo "No Assignees";
                                     ?>
                                 </p>
+                                <p class="card-subtitle text-secondary p-1">Due on <?= $request['due_date']?></p>
                             </div>
                         </div>
                         </a>
@@ -77,7 +79,8 @@
             $query = "SELECT * 
                         FROM tasks 
                         WHERE label = ?
-                        AND tasks.projectid = ?";
+                        AND tasks.projectid = ?
+                        ORDER BY due_date";
             
                 $stmt = $con->prepare($query);
                 $stmt->bind_param('si', $label, $proj_id);

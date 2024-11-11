@@ -17,7 +17,7 @@ if(isset($_POST['removedata'])) {
         $stmt->execute();
 
         $con->commit();
-    } catch (/Throwable $e) {
+    } catch (\Throwable $e) {
         $con->rollback();
         throw $e;
     }

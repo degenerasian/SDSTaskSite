@@ -4,29 +4,37 @@
     <title>Sign In | SDS Task Site</title>
     <link rel="shortcut icon" type="image/png" href="img/favicon.png"><!-- Favicon|image in web browser -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
 </head>
 <?php
 session_start();
+if(isset($_SESSION['userid'])){
+    header('location: ./index.php');
+}
 ?>
-<body style='background-color: #f7f7f7'>
+<body class="bg-body-tertiary">
    
 <form method="POST" action="services/login.php">
-<div class="container shadow position-absolute top-50 start-50 translate-middle" style='width: 22%'>
-    <center><img src='img/sdheader.jpg' class='w-100 mt-3'></center>
+<div class="container p-3">
+    <div class="row justify-content-center">
+        <div class="col-xl-6 col-lg-8 shadow p-3">
+            <center><img src='img/sdheader.jpg' class='w-100 mt-3'></center>
 
-    <br><h4 style='text-align: center'>Sign In</h4>
+            <br><h4 style='text-align: center'>Sign In</h4>
 
-    <div data-mdb-input-init class="form-outline mt-4 mx-3">
-        <input type="email" id="form3Example3" class="form-control form-control-lg" id="email" name="email" placeholder="Email Address" required/>
-    </div>
-            
-    <div data-mdb-input-init class="form-outline mt-4 mx-3">
-        <input type="password" id="form3Example3" class="form-control form-control-lg" id="password" name="password" placeholder="Password"  required/>
-    </div>
+            <div data-mdb-input-init class="form-outline mt-4 mx-3">
+                <input type="email" id="form3Example3" class="form-control form-control-lg" id="email" name="email" placeholder="Email Address" required/>
+            </div>
+                    
+            <div data-mdb-input-init class="form-outline mt-4 mx-3">
+                <input type="password" id="form3Example3" class="form-control form-control-lg" id="password" name="password" placeholder="Password"  required/>
+            </div>
 
-    <div class="row align-items-center mt-5 mb-5 mx-5">
-        <center><button type="submit" name='submit' class="btn btn-outline-secondary w-75" style='height:3em'>Sign In</button></center>
+            <div class="row align-items-center mt-5 mb-5 mx-5">
+                <center><button type="submit" name='submit' class="btn btn-outline-secondary w-75" style='height:3em'>Sign In</button></center>
+            </div>
+        </div>
     </div>
 </div>
 </form>
