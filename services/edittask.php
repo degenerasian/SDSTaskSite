@@ -33,6 +33,7 @@ if(isset($_POST['detailedit'])) {
 
         $con->commit();
     } catch (\Throwable $e) {
+        echo "Error occured. Rolling back...";
         $con->rollback();
         throw $e;
     }

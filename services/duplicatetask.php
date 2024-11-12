@@ -19,6 +19,7 @@ require_once "db_config.php";
 
             $con->commit();
         } catch (\Throwable $e) {
+            echo "Error occured. Rolling back...";
             $con->rollback();
             throw $e;
         }
@@ -37,6 +38,7 @@ require_once "db_config.php";
 
             $con->commit();
         } catch (\Throwable $e) {
+            echo "Error occured. Rolling back...";
             $con->rollback();
             throw $e;
         }
@@ -55,6 +57,7 @@ require_once "db_config.php";
 
             $con->commit();
         } catch (\Throwable $e) {
+            echo "Error occured. Rolling back...";
             $con->rollback();
             throw $e;
         }

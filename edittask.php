@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <title>SDSTaskSite</title>
-        <base href="/">
+
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">

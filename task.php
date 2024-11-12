@@ -3,7 +3,6 @@
     <head>
         <meta charset="utf-8">
         <title>SDSTaskSite</title>
-        <base href="/">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
@@ -24,96 +23,102 @@
         
         get_navbar();
         // Get general task details
-        $taskid = mysqli_escape_string($con, $_GET['taskid']);
-        $query = "SELECT tasks.*, users.userid, users.f_name, users.l_name
-                    FROM tasks, users
-                    WHERE tasks.taskid = ?
-                    AND users.userid = tasks.created_by";
-            
-            $stmt = $con->prepare($query);
-            $stmt->bind_param('i', $taskid);
-            $stmt->execute();
-            $result = $stmt->get_result();
-            $create = mysqli_fetch_assoc($result);
+            $taskid = mysqli_escape_string($con, $_GET['taskid']);
+            $query = "SELECT tasks.*, users.userid, users.f_name, users.l_name
+                        FROM tasks, users
+                        WHERE tasks.taskid = ?
+                        AND users.userid = tasks.created_by";
+                
+                $stmt = $con->prepare($query);
+                $stmt->bind_param('i', $taskid);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                $create = mysqli_fetch_assoc($result);
 
-        
-        $query = "SELECT tasks.*
-                FROM tasks
-                WHERE tasks.taskid = ?";
-        
-            $stmt = $con->prepare($query);
-            $stmt->bind_param('i', $taskid);
-            $stmt->execute();
-            $result = $stmt->get_result();
-            $task = mysqli_fetch_assoc($result);
-            $created_on = date("F j, Y", strtotime($task['created_on']));
+            
+            $query = "SELECT tasks.*
+                    FROM tasks
+                    WHERE tasks.taskid = ?";
+            
+                $stmt = $con->prepare($query);
+                $stmt->bind_param('i', $taskid);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                $task = mysqli_fetch_assoc($result);
+                $created_on = date("F j, Y", strtotime($task['created_on']));
 
         // Get assignee based details
-        $query = "SELECT users.userid, users.f_name, users.l_name
-                    FROM tasks
-                    INNER JOIN assignee ON assignee.taskid = tasks.taskid
-                    INNER JOIN users ON assignee.userid = users.userid 
-                    WHERE tasks.taskid = ?";
+            $query = "SELECT users.userid, users.f_name, users.l_name
+                        FROM tasks
+                        INNER JOIN assignee ON assignee.taskid = tasks.taskid
+                        INNER JOIN users ON assignee.userid = users.userid 
+                        WHERE tasks.taskid = ?";
 
-            $stmt = $con->prepare($query);
-            $stmt->bind_param('i', $taskid);
-            $stmt->execute();
-            $results = $stmt->get_result();
-            $assignees = array();
-            while ($row = mysqli_fetch_assoc($results)) {
-                $assignees[] = $row;
-            }
+                $stmt = $con->prepare($query);
+                $stmt->bind_param('i', $taskid);
+                $stmt->execute();
+                $results = $stmt->get_result();
+                $assignees = array();
+                while ($row = mysqli_fetch_assoc($results)) {
+                    $assignees[] = $row;
+                }
 
-        $query = "SELECT users.userid, users.f_name, users.l_name
-                    FROM users
-                    EXCEPT
-                    SELECT users.userid, users.f_name, users.l_name
-                    FROM tasks
-                    INNER JOIN assignee ON assignee.taskid = tasks.taskid
-                    INNER JOIN users ON assignee.userid = users.userid 
-                    WHERE tasks.taskid = ?";
+            $query = "SELECT users.userid, users.f_name, users.l_name
+                        FROM users
+                        EXCEPT
+                        SELECT users.userid, users.f_name, users.l_name
+                        FROM tasks
+                        INNER JOIN assignee ON assignee.taskid = tasks.taskid
+                        INNER JOIN users ON assignee.userid = users.userid 
+                        WHERE tasks.taskid = ?";
 
-            $stmt = $con->prepare($query);
-            $stmt->bind_param('i', $taskid);
-            $stmt->execute();
-            $results = $stmt->get_result();
-            $n_assignees = array();
-            while ($row = mysqli_fetch_assoc($results)) {
-                $n_assignees[] = $row;
-            }
+                $stmt = $con->prepare($query);
+                $stmt->bind_param('i', $taskid);
+                $stmt->execute();
+                $results = $stmt->get_result();
+                $n_assignees = array();
+                while ($row = mysqli_fetch_assoc($results)) {
+                    $n_assignees[] = $row;
+                }
 
         // Get comments
-        $query = "SELECT c.*, u.f_name, u.l_name
-                    FROM comments c
-                    INNER JOIN users u ON u.userid = c.userid
-                    WHERE c.taskid = ?";
-            
-            $stmt = $con->prepare($query);
-            $stmt->bind_param('i', $taskid);
-            $stmt->execute();
-            $results = $stmt->get_result();
-            $comments = array();
-            while ($row = mysqli_fetch_assoc($results)) {
-                $comments[] = $row;
-            }
+            $query = "SELECT c.*, u.f_name, u.l_name
+                        FROM comments c
+                        INNER JOIN users u ON u.userid = c.userid
+                        WHERE c.taskid = ?";
+                
+                $stmt = $con->prepare($query);
+                $stmt->bind_param('i', $taskid);
+                $stmt->execute();
+                $results = $stmt->get_result();
+                $comments = array();
+                while ($row = mysqli_fetch_assoc($results)) {
+                    $comments[] = $row;
+                }
 
         // // Get task images
-        // $query = "SELECT *
-        //             FROM img
-        //             WHERE img.taskid = ?";
-            
-        //     $stmt = $con->prepare($query);
-        //     $stmt->bind_param('i', $taskid);
-        //     $stmt->execute();
-        //     $results = $stmt->get_result();
-        //     $images = array();
-        //     while ($row = mysqli_fetch_assoc($results)) {
-        //         $images[] = $row;
-        //     }
+            // $query = "SELECT *
+            //             FROM img
+            //             WHERE img.taskid = ?";
+                
+            //     $stmt = $con->prepare($query);
+            //     $stmt->bind_param('i', $taskid);
+            //     $stmt->execute();
+            //     $results = $stmt->get_result();
+            //     $images = array();
+            //     while ($row = mysqli_fetch_assoc($results)) {
+            //         $images[] = $row;
+            //     }
     ?>
 
     <body class="bg-body-tertiary">
         <div class="container-fluid px-5 py-3">
+            <div class="row-auto py-2">
+                <a class="icon-link" href="project.php?projectid=<?= $task['projectid']?>">
+                    <i class="bi bi-arrow-left"></i>    
+                    <h5>Back to Tasks</h5>
+                </a>
+            </div>
             <div class="row">
                 <div class="col-auto mt-4">
                     <h1><?= $task['task_name'] ?></h1>
@@ -128,7 +133,7 @@
                     </h5>
                 </div>
                 <div class="col-auto mt-4 align-self-center">
-                    <button class="btn" type="button" data-bs-toggle="dropdown" aria-expanded="false"><img src="img/ellipsis.png"></button>
+                    <button class="btn py-0" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-three-dots text-secondary fs-2"></i></button>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="edittask.php?taskid=<?= $taskid?>">Edit Task</a></li>
                         <li><a class="dropdown-item" href="services/duplicatetask.php?taskid=<?= $taskid?>">Duplicate Task</a></li>
@@ -138,7 +143,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-auto">
+                <div class="col-auto p-2">
                     <?php if(!is_null($create)) { ?>
                         <p>Created by <?= $create['f_name'] . " " . $create['l_name'];?> on <?= $created_on?></p>
                     <?php } else { ?> <p>Created by a Deleted User on <?= $created_on?></p><?php } ?>
@@ -159,9 +164,9 @@
                                         <img src="uploads/<?= $ti['image']?>">
                                     </div>
                                 <?php } ?>
-                                </div>
+                            </div>
                             <?php } ?>
-                        </div>
+                    </div>
                     <div class="col shadow rounded bg-white mb-4 p-4">
                         <h4>Comments</h4>
                         <form method="POST" action="services/comment.php?taskid=<?= $taskid?>" enctype="multipart/form-data">

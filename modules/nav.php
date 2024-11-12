@@ -5,7 +5,7 @@
 ?>
     
 <?php function get_navbar() { ?>
-    <nav class="navbar navbar-expand-lg bg-dark sticky-top">
+    <nav class="navbar navbar-dark navbar-expand-lg bg-dark sticky-top">
     <div class="container-fluid">
         <a class="navbar-brand" href="index.php">
             <img src="img/logo.png" alt="SDS Logo" height='33px'>
@@ -15,12 +15,18 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item px-3">
-                        <a class="nav-link active text-white" aria-current="page" href="index.php">
-                            <i class="bi bi-kanban"></i>
-                            <span>&nbsp Projects</span>
-                        </a>
-                    </li> 
+                <li class="nav-item px-3">
+                    <a class="nav-link active text-white" aria-current="page" href="index.php">
+                        <i class="bi bi-kanban"></i>
+                        <span>&nbsp Projects</span>
+                    </a>
+                </li> 
+                <li class="nav-item px-3">
+                    <a class="nav-link active text-white" aria-current="page" href="gantt.php">
+                        <i class="bi bi-bar-chart-steps"></i>
+                        <span>&nbsp Charts</span>
+                    </a>
+                </li> 
                 
                 <?php if($_SESSION['privilege'] == 'Admin'){ ?>
 
