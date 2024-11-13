@@ -95,20 +95,6 @@
                 while ($row = mysqli_fetch_assoc($results)) {
                     $comments[] = $row;
                 }
-
-        // // Get task images
-            // $query = "SELECT *
-            //             FROM img
-            //             WHERE img.taskid = ?";
-                
-            //     $stmt = $con->prepare($query);
-            //     $stmt->bind_param('i', $taskid);
-            //     $stmt->execute();
-            //     $results = $stmt->get_result();
-            //     $images = array();
-            //     while ($row = mysqli_fetch_assoc($results)) {
-            //         $images[] = $row;
-            //     }
     ?>
 
     <body class="bg-body-tertiary">
@@ -160,13 +146,15 @@
                         if($task_img) { ?>
                             <div class="row">
                                 <?php foreach ($task_img as $ti) { ?>
-                                    <div class="col-auto">
-                                        <img src="uploads/<?= $ti['image']?>">
+                                    <div class="col-auto py-2">
+                                        <img src="uploads/<?= $ti['image']?>" class="img-fluid">
                                     </div>
                                 <?php } ?>
                             </div>
                             <?php } ?>
                     </div>
+
+                <!-- Comment Section -->
                     <div class="col shadow rounded bg-white mb-4 p-4">
                         <h4>Comments</h4>
                         <form method="POST" action="services/comment.php?taskid=<?= $taskid?>" enctype="multipart/form-data">
@@ -215,6 +203,9 @@
                         <?php } ?>
                     </div>
                 </div>
+            <!-- End of Comment Section -->
+
+            <!-- Assignee Section -->
                 <div class="col-12 col-lg-4 col-xl-3 px-4 mb-4 py-3 bg-white shadow rounded">
                     <h4>Assignees</h4>
                     <hr>
@@ -275,6 +266,7 @@
                     <button type="submit" name="detailedit" class="btn btn-success align-middle my-2">Save Changes</button>
                     </form>
                 </div>
+            <!-- End of Assignee Section -->
             </div>
         </div>  
 

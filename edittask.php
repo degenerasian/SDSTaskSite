@@ -85,19 +85,6 @@
                 $comments[] = $row;
             }
 
-        // // Get task images
-        // $query = "SELECT *
-        //             FROM img
-        //             WHERE img.taskid = ?";
-            
-        //     $stmt = $con->prepare($query);
-        //     $stmt->bind_param('i', $taskid);
-        //     $stmt->execute();
-        //     $results = $stmt->get_result();
-        //     $images = array();
-        //     while ($row = mysqli_fetch_assoc($results)) {
-        //         $images[] = $row;
-        //     }
     ?>
 
     <body class="bg-body-tertiary">
@@ -116,9 +103,9 @@
                     </h5>
                 </div>
                 <div class="col-auto mt-4 align-self-center">
-                    <button class="btn" type="button" data-bs-toggle="dropdown" aria-expanded="false"><img src="img/ellipsis.png"></button>
+                    <button class="btn py-0" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-three-dots text-secondary fs-2"></i></button>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Duplicate Task</a></li>
+                        <li><a class="dropdown-item" href="services/duplicatetask.php?taskid=<?= $taskid?>">Duplicate Task</a></li>
                         <li><button class="dropdown-item text-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete Task</a></li>
                     </ul>
                 </div>
@@ -128,23 +115,45 @@
                     <p>Created by <?= $task['f_name'] . " " . $task['l_name'];?> on <?= $created_on?></p>
                 </div>
             </div>
+            <form method="POST" action="services/edittask.php?taskid=<?= $taskid?>" enctype="multipart/form-data">
             <div class="row">
                 <hr>
                 <div class="col-12 col-lg-7 col-xl-7">
                     <div class="col shadow rounded bg-white mb-4 p-4">
-                        <p><?= $task['task_desc']?></p>
+                        <label for="task_name" class="form-label">Task Name</label>
+                        <input type="text" class="form-control" id="task_name" name="task_name" placeholder="<?= $task['task_name']?>" value="<?= $task['task_name']?>">
+                        <label for="task_desc" class="form-label pt-3">Description</label>
+                        <textarea class="form-control" rows="5" name="task_desc" id="task_desc" placeholder="A brief task description" style="resize:none;"><?= $task['task_desc']?></textarea>
+                        <button type="submit" class="btn btn-success mt-4" name="edittask">Save Changes</input>
+                    </div>
+                    <div class="col-12 min-vw-25 shadow rounded bg-white mb-4 p-4">
+                        <div class="col pb-3">
+                            <h4>Images</h4>
+                        </div>
                         <?php 
-                        $task_img = array();
-                        $task_img = get_images($con, 'task', $taskid);
-                        if($task_img) { ?>
-                            <div class="row">
-                                <?php foreach ($task_img as $ti) { ?>
-                                    <div class="col-auto">
-                                        <img src="uploads/<?= $ti['image']?>">
-                                    </div>
+                            $task_img = array();
+                            $task_img = get_images($con, 'task', $taskid);
+                            if($task_img) { ?>
+                                <div class="row row-cols-2">
+                                    <?php foreach ($task_img as $ti) { ?>
+                                        <div class="col">
+                                            <div class="row my-2">
+                                                <div class="col-auto">
+                                                    <img src="uploads/<?= $ti['image']?>" class="img-thumbnail" style="max-width:200px;max-height:200px;width:100%">
+                                                </div>
+                                                <div class="col-auto my-auto">
+                                                    <a type="button" href="services/deleteimg.php?imgid=<?= $ti['imgid']?>&taskid=<?= $taskid?>" class="btn btn-danger removebtn">Remove</a>
+                                                </div>
+                                            </div>
+                                        </div>
                                 <?php } ?>
                             </div>
-                            <?php } ?>
+                        <?php } ?>
+                        <div class="col-12 my-3">
+                            <label for="attachment" class="form-label">Attachments</label>
+                            <input class="form-control" type="file" id="attachment" name="attachment[]" multiple>
+                            <button type="submit" class="btn btn-success mt-4" name="edittask">Save Changes</input>
+                        </div> 
                     </div>
                 </div>
                 <div class="col-12 col-lg-4 col-xl-3 px-4 mb-4 py-3 bg-white shadow rounded">
@@ -166,11 +175,10 @@
                     <?php } ?>
                     <button type="button" class="btn btn-warning align-middle" data-bs-toggle="modal" data-bs-target="#inviteModal">Manage</button>
                     <hr>
-                    <form>
                     <div class="row my-3">
                         <h5>Label</h5>
                         <div class="col py-2">
-                            <select class="form-select" aria-label="Default select example">  
+                            <select class="form-select" name="label" id="label" aria-label="Default select example">  
                                 <option selected disabled>Select label</option>
                                 <option value="In Progress"<?=$task['label'] == 'In Progress' ? ' selected="selected"' : '';?>>In Progress</option>
                                 <option value="For Testing"<?=$task['label'] == 'For Testing' ? ' selected="selected"' : '';?>>For Testing</option>
@@ -185,26 +193,26 @@
                     <div class="row my-3">
                         <h5>Due Date</h5>
                         <div class="col py-2">
-                            <label for="startDate">Start</label>
-                            <input id="startDate" class="form-control" type="date">
+                            <label for="start_date">Start</label>
+                            <input id="start_date" name="start_date" class="form-control" type="date" value="<?= $task['start_date']?>">
                         </div>
                         <div class="col py-2">
-                            <label for="startDate">End</label>
-                            <input id="startDate" class="form-control" type="date">
+                            <label for="due_date">End</label>
+                            <input id="due_date" name="due_date" class="form-control" type="date" value="<?= $task['due_date']?>">
                         </div>
                     </div>
                     <div class="row">
                         <h5>Time Estimation</h5>
                         <div class="col py-2">
                             <label for="hours">Hours</label>
-                            <input class="form-control" type="number" name="hours" id="hours" min="0" value="00">
+                            <input class="form-control" type="number" name="hours" id="hours" min="0" value="<?= intdiv($task['time_est'], 60)?>">
                         </div>
                         <div class="col py-2">
                             <label for="minutes">Minutes</label>
-                            <input class="form-control" type="number" name="minutes" id="minutes" min="0" max="60" value="00">
+                            <input class="form-control" type="number" name="minutes" id="minutes" min="0" max="60" value="<?= $task['time_est']%60?>">
                         </div>
                     </div>
-                    <button type="button" class="btn btn-success align-middle my-2">Save Changes</button>
+                    <button type="submit" class="btn btn-success align-middle my-2">Save Changes</button>
                     </form>
                 </div>
             </div>
@@ -225,7 +233,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" name="removedata" class="btn btn-danger">Remove</button>
+                    <button type="submit" name="deletetask" class="btn btn-danger">Remove</button>
                     </form>
                 </div>
                 </div>

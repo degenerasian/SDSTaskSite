@@ -334,7 +334,7 @@
                     <form method="POST" action="services/editproject.php?projectid=<?= $projectid?>">
                         <div class="col py-1">
                             <label for="project_name" class="form-label">Project Name</label>
-                            <input type="text" class="form-control" name="project_name" id="project_name" placeholder="New Project" value="<?= $project['project_name']?>">
+                            <input type="text" class="form-control" name="project_name" id="project_name" placeholder="<?= $project['project_name']?>" value="<?= $project['project_name']?>">
                         </div>
                         <div class="col py-1">
                             <label for="project_desc" class="form-label">Description</label>
@@ -349,7 +349,7 @@
                 </div>
             </div>
         </div>
-    <!--    END New Project Modal    -->
+    <!--    END Edit Project Modal    -->
     </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </html>

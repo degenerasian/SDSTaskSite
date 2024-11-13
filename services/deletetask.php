@@ -1,6 +1,7 @@
 <?php
 require_once "db_config.php";
 
+if(isset|($_POST['deletetask'])){
     $id = mysqli_escape_string($con, $_GET['taskid']);
     $projectid = mysqli_escape_string($con, $_GET['projectid']);
     
@@ -23,3 +24,4 @@ require_once "db_config.php";
     }
 
         header('location: ../project.php?projectid=' . $projectid);
+}
