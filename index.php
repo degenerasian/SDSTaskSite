@@ -52,7 +52,7 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     </head>
 
-    <body> 
+    <body class="bg-body-tertiary"> 
         <div class='container-fluid p-3'>
             <h1 class='display-6'>Projects</h1>
             <hr>
@@ -95,7 +95,7 @@
                     <form method="POST" action="services/addproject.php">
                         <div class="col py-1">
                             <label for="project_name" class="form-label">Project Name</label>
-                            <input type="text" class="form-control" name="project_name" id="project_name" placeholder="New Project">
+                            <input type="text" class="form-control" name="project_name" id="project_name" placeholder="New Project" required>
                         </div>
                         <div class="col py-1">
                             <label for="project_desc" class="form-label">Description</label>

@@ -89,6 +89,12 @@
 
     <body class="bg-body-tertiary">
         <div class="container-fluid px-5 py-3">
+            <div class="row-auto py-2">
+                <a class="icon-link" href="task.php?taskid=<?= $task['taskid']?>">
+                    <i class="bi bi-arrow-left"></i>    
+                    <h5>Back to <?= $task['task_name']?></h5>
+                </a>
+            </div>
             <div class="row">
                 <div class="col-auto mt-4">
                     <h1><?= $task['task_name'] ?></h1>

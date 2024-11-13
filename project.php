@@ -223,7 +223,7 @@
                     <form method="POST" action="services/addtask.php?projectid=<?= $projectid?>" enctype="multipart/form-data">
                         <div class="col py-1">
                             <label for="task_name" class="form-label">Task Name</label>
-                            <input type="text" class="form-control" name="task_name" id="task_name" placeholder="New Task">
+                            <input type="text" class="form-control" name="task_name" id="task_name" placeholder="New Task" required>
                         </div>
                         <div class="col py-1">
                             <label for="task_desc" class="form-label">Description</label>
@@ -334,7 +334,7 @@
                     <form method="POST" action="services/editproject.php?projectid=<?= $projectid?>">
                         <div class="col py-1">
                             <label for="project_name" class="form-label">Project Name</label>
-                            <input type="text" class="form-control" name="project_name" id="project_name" placeholder="<?= $project['project_name']?>" value="<?= $project['project_name']?>">
+                            <input type="text" class="form-control" name="project_name" id="project_name" placeholder="<?= $project['project_name']?>" value="<?= $project['project_name']?>" required>
                         </div>
                         <div class="col py-1">
                             <label for="project_desc" class="form-label">Description</label>

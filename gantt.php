@@ -9,6 +9,7 @@
 <head>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
 </head>
@@ -19,7 +20,14 @@
     $data = $sql->fetch_all(MYSQLI_ASSOC);
 ?>
 <div class="container-fluid">
+    
     <div class="row py-3">
+    <div class="row-auto py-2 px-5">
+        <a class="icon-link" href="index.php">
+            <i class="bi bi-arrow-left"></i>    
+            <h5>Back to Projects</h5>
+        </a>
+    </div>
         <form method="POST">
         <div class="row m-4">   
             <div class="col-auto">
@@ -54,8 +62,12 @@
     $fromdates = array();
     $duedates = array();
 
-    $query = "SELECT * FROM tasks WHERE projectid = '".$_POST["projects"]."'";
-    $result = mysqli_query($con, $query);
+    $query = "SELECT * FROM tasks WHERE projectid = ? AND NOT start_date = '0000-00-00'";
+    $stmt = $con->prepare($query);
+    $stmt->bind_param('i', $_POST["projects"]);
+    $stmt->execute();
+
+    $result = $stmt->get_result();
     if($result->num_rows === 0)
     { ?>
     <div class="row">
@@ -170,7 +182,7 @@
         $max_day = date('d', strtotime($max_date));
         for ($i = 0; $i < count($taskids); $i++){
             echo "<tr>
-                <td>".$taskids[$i]."</td>
+                <td>".$taskids[$i]."</span></td>
                 <td>".$fromdates[$i]."</td>
                 <td>".$duedates[$i]."</td>";
                 $date = $min_date;

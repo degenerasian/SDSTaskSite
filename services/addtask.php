@@ -12,16 +12,23 @@ session_start();
         $start_date = mysqli_escape_string($con, $_POST['start_date']);
         $due_date = mysqli_escape_string($con, $_POST['due_date']);
         $created_by = mysqli_escape_string($con, $_SESSION['userid']);
-
         $temp_hours = mysqli_escape_string($con, $_POST['hours']);
         $temp_minutes = mysqli_escape_string($con, $_POST['minutes']);
+        echo $start_date;
 
         // hours is converted to minutes, time_est is in minutes
         $hours = intval($temp_hours) * 60;
         $minutes = intval($temp_minutes);
 
-        $time_est = $hours + $minutes;
+        if ($start_date == 0000-00-00) {
+            $start_date = date("Y-m-d");
+        }
+        if ($due_date == 0000-00-00) {
+            $due_date = date("Y-m-d");
+        }
 
+        $time_est = $hours + $minutes;
+        
         $query = "INSERT INTO tasks (task_name, task_desc, label, time_est, start_date, due_date, created_by, projectid)
                     VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try {
