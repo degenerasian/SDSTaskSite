@@ -108,11 +108,11 @@ session_start();
                     // echo $img_ex . "<br>";
                 } else {
                     echo "<script>alert('Error uploading image.');</script>";
-                    // header('location: ../task.php?taskid=' . $taskid);
+                    header('location: ../task.php?taskid=' . $taskid);
                 }
         
             }
-            // header('location: ../task.php?taskid=' . $taskid);
+            header('location: ../task.php?taskid=' . $taskid);
             }
         }
-    // header('location: ../task.php?taskid=' . $taskid);
+    header('location: ../task.php?taskid=' . $taskid);
